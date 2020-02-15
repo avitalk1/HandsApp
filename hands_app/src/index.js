@@ -10,6 +10,7 @@ import Request from './Components/FormInputs/Request';
 import Post from './Components/FormInputs/Post';
 import PostThumbnail from './Components/PostThumbnail'
 import PostView from './Components/PostView'
+import RequestView from './Components/RequestView'
 // ReactDOM.render(
 //     <Router>
 //         <ReactRouter />
@@ -17,7 +18,7 @@ import PostView from './Components/PostView'
 //     document.getElementById('root')
 
 // )
-ReactDOM.render(<PostView />, document.getElementById('root'));
+ReactDOM.render(<RequestView />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
