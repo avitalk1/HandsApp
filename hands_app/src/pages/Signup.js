@@ -22,7 +22,13 @@ const useStyles = makeStyles({
 });
 const professions = ["Other", "Plumber", "Painter", "Electrition"];
 const Signup = () => {
+  const [firstName,setFirstName]=useState("");
+  const [lastName,setLastName]=useState("");
+  const [email,setEmail]=useState("");
+  const [password,setPassword]=useState("");
   const [address, setAddress] = useState("");
+  const [profession,setProfession]=useState("");
+
   const handleSelect = async value => {
     console.log(value);
   };
@@ -34,11 +40,15 @@ const Signup = () => {
           id="outlined-helperText"
           label="First Name"
           variant="outlined"
+          value={firstName}
+          onChange={e=>setFirstName(e.target.value)}
         />
         <TextField
           id="outlined-helperText"
           label="Last Name"
           variant="outlined"
+          value={lastName}
+          onChange={e=>setLastName(e.target.value)}
         />
       </div>
       <div>
@@ -47,6 +57,8 @@ const Signup = () => {
           id="outlined-helperText"
           label="Email"
           variant="outlined"
+          value={email}
+          onChange={e=>setEmail(e.target.value)}
         />
       </div>
       <div>
@@ -56,6 +68,8 @@ const Signup = () => {
           type="password"
           label="Password"
           variant="outlined"
+          value={password}
+          onChange={e=>setPassword(e.target.value)}
         />
       </div>
       <div>
@@ -80,11 +94,8 @@ const Signup = () => {
               />
               <div>
                 {suggestions.map(suggestion => {
-                  const chose = {
-                    backgroundColor: suggestion.active ? "#41b6e6" : "fff"
-                  };
                   return (
-                    <div {...getSuggestionItemProps(suggestion, { chose })}>
+                    <div {...getSuggestionItemProps(suggestion)}>
                       {suggestion.description}
                     </div>
                   );
@@ -100,6 +111,8 @@ const Signup = () => {
           <Select
             native
             labelWidth={80}
+            value={profession}
+            onChange={e=>setProfession(e.target.value)}
             inputProps={{
               name: "profession"
             }}
