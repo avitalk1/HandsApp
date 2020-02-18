@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PlacesAutocomplete from "react-places-autocomplete";
+import axios from "axios";
 import {
   Button,
   TextField,
@@ -20,17 +21,57 @@ const useStyles = makeStyles({
     minWidth: "100%"
   }
 });
-const professions = ["Other", "Plumber", "Painter", "Electrition"];
-const Signup = () => {
-  const [firstName,setFirstName]=useState("");
-  const [lastName,setLastName]=useState("");
-  const [email,setEmail]=useState("");
-  const [password,setPassword]=useState("");
-  const [address, setAddress] = useState("");
-  const [profession,setProfession]=useState("");
+const professions = ["None", "Plumber", "Painter", "Electrition"];
 
-  const handleSelect = async value => {
-    console.log(value);
+const Signup = () => {
+  const [post, setPost] = useState([]);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [validEmail, setValidEmail] = useState(false);
+  const [password, setPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [profession, setProfession] = useState("");
+  const [initial, setInitial] = useState(true);
+
+  const fetchPost = async () => {
+    const user = {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      password: password,
+      location: address,
+      profession: (profession) ? profession : "None"
+    }
+    try {
+      const respons = await axios.post(
+        "https://hands-app.herokuapp.com/user/signup",
+        user
+      );
+     console.log(respons)
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSubmit = () => {
+    let flag = true;
+    setInitial(false);
+    if (
+      !email ||
+      email.lastIndexOf("@") === -1 ||
+      email.lastIndexOf(".") === -1
+    ) {
+      setValidEmail(true);
+      flag = false;
+    }
+   
+    if (!firstName || !lastName || password.length < 8 || !address) {
+      flag = false;
+    }
+    if (flag) {
+      fetchPost();
+    }
   };
   const classes = useStyles();
   return (
@@ -41,14 +82,18 @@ const Signup = () => {
           label="First Name"
           variant="outlined"
           value={firstName}
-          onChange={e=>setFirstName(e.target.value)}
+          onChange={e => setFirstName(e.target.value)}
+          error={!firstName && !initial}
+          helperText={!firstName && !initial ? "first name required" : ""}
         />
         <TextField
           id="outlined-helperText"
           label="Last Name"
           variant="outlined"
           value={lastName}
-          onChange={e=>setLastName(e.target.value)}
+          onChange={e => setLastName(e.target.value)}
+          error={!lastName && !initial}
+          helperText={!lastName && !initial ? "last name required" : ""}
         />
       </div>
       <div>
@@ -58,7 +103,9 @@ const Signup = () => {
           label="Email"
           variant="outlined"
           value={email}
-          onChange={e=>setEmail(e.target.value)}
+          onChange={e => setEmail(e.target.value)}
+          error={validEmail}
+          helperText={validEmail ? "invalid email!" : ""}
         />
       </div>
       <div>
@@ -69,14 +116,17 @@ const Signup = () => {
           label="Password"
           variant="outlined"
           value={password}
-          onChange={e=>setPassword(e.target.value)}
+          error={password.length < 8 && !initial}
+          helperText={
+            password.length < 8 && !initial ? "invalid password!" : ""
+          }
+          onChange={e => setPassword(e.target.value)}
         />
       </div>
       <div>
         <PlacesAutocomplete
           value={address}
           onChange={setAddress}
-          onSelect={handleSelect}
         >
           {({
             getInputProps,
@@ -90,6 +140,8 @@ const Signup = () => {
                 id="outlined-helperText"
                 label="Location"
                 variant="outlined"
+                error={!address && !initial}
+                helperText={!address && !initial ? "location required" : ""}
                 {...getInputProps()}
               />
               <div>
@@ -112,7 +164,7 @@ const Signup = () => {
             native
             labelWidth={80}
             value={profession}
-            onChange={e=>setProfession(e.target.value)}
+            onChange={e => setProfession(e.target.value)}
             inputProps={{
               name: "profession"
             }}
@@ -126,8 +178,9 @@ const Signup = () => {
           </Select>
         </FormControl>
       </div>
-
-      <Button variant="contained">SIGN UP</Button>
+      <Button onClick={handleSubmit} variant="contained">
+        SIGN UP
+      </Button>
     </form>
   );
 };
