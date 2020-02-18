@@ -7,7 +7,7 @@ import { Link as RouterLink } from "react-router-dom";
 const useStyles = makeStyles({
   root: {
     minWidth: "100%",
-    minHeight: "100vh",
+    minHeight: "90vh",
     background: "linear-gradient(248.35deg,#b4dfe5 1.55%, #07889b 95.8%)"
   },
   container: {
@@ -61,11 +61,20 @@ export default function LandingPage() {
               variant="contained"
               className={classes.button}
               component={RouterLink}
-              to="/signup"
+              to={{
+                pathname: "/connection/signup",
+                state: { connectionType: "signup" }
+              }}
             >
               Sign up as a volunteer
             </Button>
-            <Button variant="contained" className={classes.button}>
+            <Button variant="contained" className={classes.button}
+            component={RouterLink}
+            to={{
+              pathname: "/connection/login",
+              state: { connectionType: "login" }
+            }}
+            >
               Ask for Help
             </Button>
           </Route>

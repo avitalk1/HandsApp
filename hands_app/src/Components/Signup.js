@@ -11,29 +11,78 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   formContainer: {
-    maxWidth: "30%",
-    minHeight: "40vh",
+   
+    maxWidth: "80%",
+    minHeight: "100%",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-evenly"
+    justifyContent: "space-evenly",
+    '& label.Mui-focused': {
+      color: '#F4976C',
+      
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#F4976C',
+     
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderRadius:"15px"
+      },
+      '&:hover fieldset': {
+        borderColor: '#F4976C',
+        
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#F4976C',
+       
+      },
+    },
   },
   input: {
-    minWidth: "100%"
+    minWidth: "100%",
+    boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
+    borderRadius:"15px",
+   
+  },
+  smallInput : {
+    
+    width: "45%",
+    boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
+    borderRadius:"15px"
+  },
+  nameInput:{
+    paddingTop:"45px",
+    minWidth: "90%",
+    display:"flex",
+    justifyContent:"space-between"
+  },
+  signupBtn : {
+    background:"#F4976C",
+    color:"white",
+    boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
+    fontSize:"36px",
+    marginTop:"50px",
+    marginBottom:"50px",
+    borderRadius:"15px",
+  },
+  inputContainer:{
+    paddingTop:"45px",
   }
+  
 });
 const professions = ["None", "Plumber", "Painter", "Electrition"];
 
 const Signup = () => {
-  const [post, setPost] = useState([]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [validEmail, setValidEmail] = useState(false);
+  const [validEmail, setValidEmail] = useState("");
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
   const [profession, setProfession] = useState("");
   const [initial, setInitial] = useState(true);
-
+  const [signupSuccess, setSignupSuccess] = useState(false);
   const fetchPost = async () => {
     const user = {
       first_name: firstName,
@@ -44,11 +93,15 @@ const Signup = () => {
       profession: (profession) ? profession : "None"
     }
     try {
-      const respons = await axios.post(
+      const response = await axios.post(
         "https://hands-app.herokuapp.com/user/signup",
         user
       );
-     console.log(respons)
+     if(response.data.message){
+       setValidEmail(response.data.message);
+     }else{
+       setSignupSuccess(true);
+     }
     } catch (err) {
       console.log(err);
     }
@@ -62,7 +115,7 @@ const Signup = () => {
       email.lastIndexOf("@") === -1 ||
       email.lastIndexOf(".") === -1
     ) {
-      setValidEmail(true);
+      setValidEmail("Invalid Email!");
       flag = false;
     }
    
@@ -76,8 +129,9 @@ const Signup = () => {
   const classes = useStyles();
   return (
     <form className={classes.formContainer}>
-      <div>
+      <div className={classes.nameInput}>
         <TextField
+         className={classes.smallInput}
           id="outlined-helperText"
           label="First Name"
           variant="outlined"
@@ -87,6 +141,7 @@ const Signup = () => {
           helperText={!firstName && !initial ? "first name required" : ""}
         />
         <TextField
+          className={classes.smallInput}
           id="outlined-helperText"
           label="Last Name"
           variant="outlined"
@@ -96,7 +151,7 @@ const Signup = () => {
           helperText={!lastName && !initial ? "last name required" : ""}
         />
       </div>
-      <div>
+      <div className={classes.inputContainer}>
         <TextField
           className={classes.input}
           id="outlined-helperText"
@@ -104,11 +159,11 @@ const Signup = () => {
           variant="outlined"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          error={validEmail}
-          helperText={validEmail ? "invalid email!" : ""}
+          error={validEmail && !initial}
+          helperText={validEmail}
         />
       </div>
-      <div>
+      <div className={classes.inputContainer}>
         <TextField
           className={classes.input}
           id="outlined-helperText"
@@ -123,7 +178,7 @@ const Signup = () => {
           onChange={e => setPassword(e.target.value)}
         />
       </div>
-      <div>
+      <div className={classes.inputContainer}>
         <PlacesAutocomplete
           value={address}
           onChange={setAddress}
@@ -157,7 +212,7 @@ const Signup = () => {
           )}
         </PlacesAutocomplete>
       </div>
-      <div>
+      <div className={classes.inputContainer}>
         <FormControl variant="outlined" className={classes.input}>
           <InputLabel> Profession </InputLabel>
           <Select
@@ -178,7 +233,7 @@ const Signup = () => {
           </Select>
         </FormControl>
       </div>
-      <Button onClick={handleSubmit} variant="contained">
+      <Button className={classes.signupBtn} onClick={handleSubmit} variant="contained">
         SIGN UP
       </Button>
     </form>

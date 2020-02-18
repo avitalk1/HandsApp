@@ -22,3 +22,9 @@ html {
   font-family: sans-serif;
   text-align: center;
 }
+.logo{
+  position: absolute;
+  width: 15%;
+  z-index: 10;
+ 
+}
