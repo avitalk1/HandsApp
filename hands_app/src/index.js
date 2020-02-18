@@ -8,14 +8,17 @@ import Login from './Components/FormInputs/Login';
 import Signup from './Components/FormInputs/Signup';
 import Request from './Components/FormInputs/Request';
 import Post from './Components/FormInputs/Post';
-import PostThumbnail from './Components/PostThumbnail'
-import PostView from './Components/PostView'
-import RequestView from './Components/RequestView'
-
+import PostThumbnail from './Components/PostThumbnail';
+import PostView from './Components/PostView';
+import RequestView from './Components/RequestView';
+import Footer from './Components/Footer';
+import logo from './logo/logo.png';
 
 ReactDOM.render(
     <Router>
+        <img src={logo} className="logo" alt="logo" />
         <ReactRouter />
+        <Footer/>
     </Router>,
     document.getElementById('root')
 
