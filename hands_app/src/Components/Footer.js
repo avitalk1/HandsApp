@@ -42,6 +42,10 @@ const useStyles = makeStyles({
         height:"30%",
         background:"black",
         color:"white"
+    },
+    bottomRowContent:{
+        display:"flex",
+        alignItems:"center",
     }
 
 })
@@ -58,7 +62,7 @@ function Footer() {
                 <div className={classes.rightSide}>Contact Us</div>
             </div>
             <div className={classes.bottomRow}>
-                <div><CopyrightIcon/> All Right Reserved | Avital Kahani and Chen Gutman 2019</div>
+                <div className={classes.bottomRowContent}><CopyrightIcon/> All Right Reserved | Avital Kahani and Chen Gutman 2019</div>
             </div>
         </div>
     )
