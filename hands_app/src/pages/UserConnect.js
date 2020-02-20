@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Signup from "../Components/Signup";
 import Login from "../Components/Login";
 import { makeStyles } from "@material-ui/core/styles";
@@ -23,7 +23,6 @@ const useStyles = makeStyles({
         backgroundColor: "white",
         width: "35%",
         height: "fit-content",
-        top: "15%",
         left: "50%",
         position: "absolute",
         borderRadius: "20px",
@@ -52,6 +51,15 @@ const useStyles = makeStyles({
 })
 const UserConnect = (props) => {
     const [connectionType, setConnectionType] = useState(props.location.state.connectionType)
+    const [formHeight, setFormHeight] = useState("");
+
+    useEffect(()=>{
+        if(connectionType === "signup"){
+            setFormHeight("5%")
+        } else if( connectionType === "login"){
+            setFormHeight("20%")
+        }
+    })
     const classes = useStyles();
     let content = (
         <div className={classes.formWrapper}>
@@ -62,7 +70,7 @@ const UserConnect = (props) => {
                 </div>
                 <div className={classes.rightColumn}></div>
             </div>
-            <div className={classes.formContainer}>{
+            <div style={{top:formHeight}}className={classes.formContainer}>{
                 (connectionType === "signup" ? <Signup /> : <Login />)
             }</div>
         </div>

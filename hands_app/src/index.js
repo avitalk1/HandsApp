@@ -12,7 +12,7 @@ import PostThumbnail from './Components/PostThumbnail';
 import PostView from './Components/PostView';
 import RequestView from './Components/RequestView';
 import Footer from './Components/Footer';
-import logo from './logo/logo.png';
+import logo from './images/logo.png';
 
 ReactDOM.render(
     <Router>

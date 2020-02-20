@@ -11,7 +11,6 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   formContainer: {
-   
     maxWidth: "80%",
     minHeight: "100%",
     display: "flex",
@@ -46,7 +45,6 @@ const useStyles = makeStyles({
    
   },
   smallInput : {
-    
     width: "45%",
     boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
     borderRadius:"15px"
@@ -67,7 +65,7 @@ const useStyles = makeStyles({
     borderRadius:"15px",
   },
   inputContainer:{
-    paddingTop:"45px",
+    paddingTop:"6%",
   }
   
 });

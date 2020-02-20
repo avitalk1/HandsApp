@@ -4,17 +4,23 @@ import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Route } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
+import landingPageImg from "../images/landingPageImg.png"
 const useStyles = makeStyles({
   root: {
     minWidth: "100%",
     minHeight: "90vh",
-    background: "linear-gradient(248.35deg,#b4dfe5 1.55%, #07889b 95.8%)"
+    background: "linear-gradient(248.35deg,#b4dfe5 1.55%, #07889b 95.8%)",
+    position:"relative"
   },
-  container: {
+  container: { 
+    display:"flex",
+    justifyContent:"space-between"
+  },
+  leftColumn: {
     maxWidth: "50%",
     position: "relative",
     height: "40vh",
-    top: 300,
+    top: "20vh",
     left: 123,
     color: "#FFCB9A",
     display: "flex",
@@ -42,14 +48,34 @@ const useStyles = makeStyles({
       background: "#66B9Bf",
       filter: "brightness(80%)"
     }
+  },
+  loginLink:{
+    position:"absolute",
+    top:"6%",
+    right:"8%",
+    textDecoration:"none",
+    color:"white",
+    fontSize:"30px",
+    zIndex:2
+  },
+  landingPageImg:{
+    mixBlendMode:"multiply",
+    width:"40%"
+
   }
+
 });
 
 export default function LandingPage() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
+      <RouterLink className={classes.loginLink} to={{
+                pathname: "/connection/login",
+                state: { connectionType: "login" }
+              }} >Login</RouterLink>
       <div className={classes.container}>
+      <div className={classes.leftColumn}>
         <p className={classes.first_par}>LET'S DO SOMETHING GOOD TODAY!</p>
         <p className={classes.second_par}>
           A platform that connects between people who need help, and people who
@@ -80,6 +106,10 @@ export default function LandingPage() {
           </Route>
         </div>
       </div>
+      
+      <img src={landingPageImg} className={classes.landingPageImg} alt="landing-page-image" />
+      </div>
     </div>
+
   );
 }
