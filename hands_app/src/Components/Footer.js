@@ -5,7 +5,7 @@ import PinterestIcon from '@material-ui/icons/Pinterest';
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import CopyrightIcon from '@material-ui/icons/Copyright';
 import { makeStyles } from "@material-ui/core/styles";
-import logo from '../logo/logo.png';
+import logo from '../images/logo.png';
 const useStyles = makeStyles({
     footerContainer: {
         height:"10vh"
