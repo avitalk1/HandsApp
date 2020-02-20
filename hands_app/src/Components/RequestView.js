@@ -79,7 +79,7 @@ const useStyles = makeStyles({
     }
 });
 
-export default function App() {
+export default function RequestView() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
 
