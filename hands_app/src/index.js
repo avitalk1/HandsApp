@@ -10,20 +10,21 @@ import Request from './Components/FormInputs/Request';
 import Post from './Components/FormInputs/Post';
 import PostThumbnail from './Components/PostThumbnail';
 import PostView from './Components/PostView';
+import RequestsView from './Components/RequestsView';
 import RequestView from './Components/RequestView';
 import Footer from './Components/Footer';
 import logo from './images/logo.png';
 
-ReactDOM.render(
-    <Router>
-        <img src={logo} className="logo" alt="logo" />
-        <ReactRouter />
-        <Footer/>
-    </Router>,
-    document.getElementById('root')
+// ReactDOM.render(
+//     <Router>
+//         <img src={logo} className="logo" alt="logo" />
+//         <ReactRouter />
+//         <Footer/>
+//     </Router>,
+//     document.getElementById('root')
 
-)
-// ReactDOM.render(<RequestView />, document.getElementById('root'));
+// )
+ReactDOM.render(<RequestView />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
