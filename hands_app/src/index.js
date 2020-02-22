@@ -13,16 +13,16 @@ import CreatePost from './Components/Post/CreatePostForm'
 import PostPhotos from './Components/Post/PostPhotos'
 import CreatePostPage from './pages/CreatePostPage'
 import RequestPage from './pages/Request'
-// ReactDOM.render(
-//     <Router>
-//         <img src={logo} className="logo" alt="logo" />
-//         <ReactRouter />
-//         <Footer/>
-//     </Router>,
-//     document.getElementById('root')
+ReactDOM.render(
+    <Router>
+        <img src={logo} className="logo" alt="logo" />
+        <ReactRouter />
+        <Footer/>
+    </Router>,
+    document.getElementById('root')
 
-// )
- ReactDOM.render(<RequestPage />, document.getElementById('root'));
+)
+//  ReactDOM.render(<RequestPage />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
