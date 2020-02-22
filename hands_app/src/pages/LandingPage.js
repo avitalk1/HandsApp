@@ -97,8 +97,8 @@ export default function LandingPage() {
             <Button variant="contained" className={classes.button}
             component={RouterLink}
             to={{
-              pathname: "/connection/login",
-              state: { connectionType: "login" }
+              pathname: "/request",
+              state: { isNewRequest: true }
             }}
             >
               Ask for Help
