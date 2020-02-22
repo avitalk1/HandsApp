@@ -9,16 +9,16 @@ import logo from './images/logo.png';
 import Posts from './pages/Posts'
 import AdminInbox from './pages/AdminInbox'
 import RequestForm from './Components/RequestForm'
-// ReactDOM.render(
-//     <Router>
-//         <img src={logo} className="logo" alt="logo" />
-//         <ReactRouter />
-//         <Footer/>
-//     </Router>,
-//     document.getElementById('root')
+ReactDOM.render(
+    <Router>
+        <img src={logo} className="logo" alt="logo" />
+        <ReactRouter />
+        <Footer/>
+    </Router>,
+    document.getElementById('root')
 
-// )
-ReactDOM.render(<RequestForm />, document.getElementById('root'));
+)
+//ReactDOM.render(<RequestForm />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
