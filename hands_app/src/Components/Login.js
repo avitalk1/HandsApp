@@ -132,7 +132,10 @@ const Login = () => {
         <Redirect
           to={{
             pathname: "/request",
-            state: { userId: loggedInUser._id }
+            state: { 
+              isNewRequest:false,
+              userId: loggedInUser._id 
+            }
           }}
         />
         );

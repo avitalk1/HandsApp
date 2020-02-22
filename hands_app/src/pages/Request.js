@@ -7,6 +7,7 @@ import RequestForm from '../Components/RequestForm';
 const useStyles = makeStyles({
     Background: {
         backgroundColor: "#F0F5F7",
+        height: "90vh"
     },
     requestBackground: {
         minWidth: "100%",
@@ -20,7 +21,7 @@ const useStyles = makeStyles({
     title: {
         position: "absolute",
         width: "20%",
-        marginTop: "2%",
+        marginTop: "5%",
         marginLeft: "5%",
         color: "#07889B",
         fontWeight: "bold",
@@ -43,7 +44,8 @@ const useStyles = makeStyles({
 })
 
 
-export default function Request() {
+export default function Request(props) {
+    console.log(props.location.state)
     const classes = useStyles();
     return (
         <div className={classes.Background}>
