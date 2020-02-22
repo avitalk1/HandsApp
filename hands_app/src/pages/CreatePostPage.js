@@ -50,7 +50,8 @@ const useStyles = makeStyles({
         fontSize: "45px"
     }
 })
-export default function CreatePostPage() {
+export default function CreatePostPage(props) {
+    const [request, setRequest] = useState(props.location.state.request);
     const classes = useStyles();
     return (
         <div>
@@ -62,7 +63,7 @@ export default function CreatePostPage() {
                     </div>
                     <div className={classes.rightColumn}></div>
                 </div>
-                <div  className={classes.formContainer}><CreatePostForm/></div>
+                <div  className={classes.formContainer}><CreatePostForm requestDetails={request}/></div>
             </div>
         </div>
     );
