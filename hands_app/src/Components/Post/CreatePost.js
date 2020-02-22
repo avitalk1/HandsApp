@@ -123,7 +123,7 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function PostCreate() {
+export default function CreatePost() {
   const classes = useStyles();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const materialTheme = createMuiTheme({
