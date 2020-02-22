@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import CheckIcon from "@material-ui/icons/Check";
 import { createMuiTheme } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
@@ -19,32 +20,6 @@ const useStyles = makeStyles({
     color: "#F4976C",
     marginTop:"5%"
   },
-  topInput: {
-    width:"100%",
-    marginTop:"10%",
-    "& .MuiFormControl-root": {
-      margin: 0,
-      color: "#F4976C"
-    },
-    "& label.Mui-focused": {
-      color: "#F4976C"
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#F4976C"
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderRadius: "15px",
-        boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)"
-      },
-      "&:hover fieldset": {
-        borderColor: "#F4976C"
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#F4976C"
-      }
-    }
-  },
   thirdLine: {
     display: "flex",
     justifyContent: "space-between"
@@ -54,6 +29,7 @@ const useStyles = makeStyles({
     color: "#F4976C",
     fontSize: "30px",
     position: "absolute",
+      background:"none",
     right: "5%"
   },
   selecter: {
@@ -68,13 +44,19 @@ const useStyles = makeStyles({
     backgroundColor: "#F2D7BE",
     color: "#F4976C"
   },
-  inputConteiner: {
+  smallInputConteiner: {
     width: "45%",
     marginTop:"5%"
   },
-
-  Input: {
-    marginTop:"5%",
+  largeInputConteiner: {
+    marginTop:"10%",
+    "& .MuiFormControl-root": {
+      width:"100%",
+      margin: 0,
+      color: "#F4976C"
+    },
+  },
+  inputStyle:{
     "& .MuiFormControl-root": {
       width: "100%",
       margin: 0,
@@ -98,7 +80,11 @@ const useStyles = makeStyles({
         borderColor: "#F4976C"
       }
     }
+  },
+  descriptionInput:{
+      width:"100%"
   }
+
 });
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -118,17 +104,20 @@ const professions = [
   "Contractor"
 ];
 
-function getStyles(name, personName, theme) {
+function getStyles(name, profession, theme) {
   return {
     fontWeight:
-      personName.indexOf(name) === -1
+      profession.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium
   };
 }
 
-export default function CreatePostForm() {
+export default function CreatePostForm(props) {
+  const theme = useTheme();
   const classes = useStyles();
+  const [professionsNeeded, setProfessionsNeeded] = useState([]);
+  const [request, setRequest] = useState(props.requestDetails);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const materialTheme = createMuiTheme({
     overrides: {
@@ -142,39 +131,36 @@ export default function CreatePostForm() {
   const handleDateChange = date => {
     setSelectedDate(date);
   };
-  const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
+  ;
 
   const handleChange = event => {
-    setPersonName(event.target.value);
+    setProfessionsNeeded(event.target.value);
   };
 
   return (
     <div style={{width:"80%"}}>
       <form>
-        <div>
+        <div className={classes.largeInputConteiner}>
           <TextField
-            className={classes.topInput}
-            id="outlined-search"
-            placeholder="Request subject"
-            type="search"
+            className={classes.inputStyle}
+            placeholder={request.subject}
             variant="outlined"
           />
         </div>
-        <div>
+        <div className={classes.largeInputConteiner}>
           <div className={classes.title}>Description</div>
-          <TextField
-            className={classes.topInput}
-            id="outlined-search"
-            placeholder="Request subject"
-            type="search"
+          <TextField 
+          multiline
+          rows={4}
+            className={`${classes.inputStyle} ${classes.descriptionInput}`}
+            placeholder={request.description}
             variant="outlined"
           />
         </div>
         <div className={classes.thirdLine}>
-          <div className={classes.inputConteiner}>
+          <div className={classes.smallInputConteiner}>
             <div className={classes.title}>Date</div>
-            <div className={classes.Input}>
+            <div className={classes.inputStyle}>
               <ThemeProvider theme={materialTheme}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
@@ -195,16 +181,16 @@ export default function CreatePostForm() {
               </ThemeProvider>
             </div>
           </div>
-          <div className={classes.inputConteiner}>
+          <div className={classes.smallInputConteiner}>
             <div className={classes.title}>Professionals Needed</div>
-            <div className={classes.Input}>
+            <div className={classes.inputStyle}>
               <FormControl variant="outlined" className={classes.formControl}>
                 <Select
                   className={classes.selecter}
                   labelId="demo-mutiple-chip-label"
                   id="demo-mutiple-chip"
                   multiple
-                  value={personName}
+                  value={professionsNeeded}
                   onChange={handleChange}
                   renderValue={selected => (
                     <div className={classes.chips}>
@@ -223,7 +209,7 @@ export default function CreatePostForm() {
                     <MenuItem
                       key={name}
                       value={name}
-                      style={getStyles(name, personName, theme)}
+                      style={getStyles(name, professionsNeeded, theme)}
                     >
                       {name}
                     </MenuItem>
@@ -236,7 +222,7 @@ export default function CreatePostForm() {
         <div className={classes.inputConteiner}>
           <div className={classes.title}>Number Of Volunteers</div>
           <TextField
-            className={classes.Input}
+            className={classes.inputStyle}
             id="outlined-search"
             type="number"
             variant="outlined"

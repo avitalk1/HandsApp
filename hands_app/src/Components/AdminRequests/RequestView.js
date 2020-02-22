@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
-
+import { Link as RouterLink } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
@@ -172,7 +172,11 @@ export default function RequestView(props) {
             <div className={classes.image} />
           </div>
           <div className={classes.btnContainer}>
-            <Button className={classes.acceptBtn} variant="contained">
+            <Button className={classes.acceptBtn} variant="contained" component={RouterLink}
+            to={{
+              pathname: "/createpost",
+              state: { request: props.request }
+            }}>
               Accept and Write a Post
             </Button>
           </div>
