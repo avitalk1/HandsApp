@@ -48,13 +48,13 @@ const useStyles = makeStyles({
   title: {
     color: "#2C3531",
     fontSize: "1.5em",
-    marginBottom: "2.5%"
+    marginBottom: "2%"
   },
   lineInput: {
     minWidth: "90%",
     display: "flex",
     justifyContent: "space-between",
-    marginBottom: "5%"
+    marginBottom: "3%"
   },
   Input: {
     width: "45%",
@@ -66,14 +66,12 @@ const useStyles = makeStyles({
   },
   description: {
     width: "100%",
-    // height:"20vh",
     boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
     borderRadius: "15px",
-    marginBottom: "5%"
+    marginBottom: "3%"
   },
   imageContainer: {
     width: "100%",
-    height: "20vh",
     backgroundColor: "white",
     borderRadius: "15px",
     boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
@@ -81,9 +79,10 @@ const useStyles = makeStyles({
     justifyContent: "space-evenly"
   },
   image: {
-    width: "21%",
-    height: "70%",
+    width: "100px",
+    height: "70px",
     marginTop: "1.5%",
+    marginBottom: "1.5%",
     borderRadius: "15px",
     borderStyle: "dotted",
     borderColor: "#C4C4C4",
@@ -94,18 +93,17 @@ const useStyles = makeStyles({
     fontSize: "2em",
     color: "#C4C4C4",
     position: "absolute",
-    top: "35%",
-    left: "40%"
+    top: "30%",
+    left: "35%"
   },
   submitBtn: {
-    marginTop: "9%",
+    marginTop: "2%",
     marginLeft: "18%",
     width: "65%",
-    height: "15vh",
     background: "#F4976C",
     color: "white",
     boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
-    fontSize: "2em",
+    fontSize: "1.5em",
     borderRadius: "15px"
   },
   draggable: {
@@ -129,6 +127,7 @@ const useStyles = makeStyles({
   },
   dateInput: {
     width: "45%",
+    color:"black",
     "& .MuiFormControl-root": {
       width: "100%",
       margin: 0,
@@ -139,6 +138,7 @@ const useStyles = makeStyles({
     },
     "& .MuiInput-underline:after": {
       borderBottomColor: "#F4976C"
+      
     },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
@@ -232,6 +232,7 @@ export default function RequestForm() {
 
   return (
     <form className={classes.formContainer}>
+      <div>
       <div className={classes.contactInfo}>
         <div className={classes.title}> Contact Information</div>
         <div className={classes.lineInput}>
@@ -284,7 +285,8 @@ export default function RequestForm() {
           />
         </div>
       </div>
-
+      </div>
+          <div>
       <div className={classes.requestInfo}>
         <div className={classes.title}> Request Information</div>
         <div className={classes.lineInput}>
@@ -353,6 +355,8 @@ export default function RequestForm() {
           />
         </div>
       </div>
+      </div>
+      <div>
       <div className={classes.images}>
         <div className={classes.title}> Images</div>
         <div className={classes.imageContainer}>
@@ -458,9 +462,12 @@ export default function RequestForm() {
           </div>
         </div>
       </div>
+      </div>
+      <div>
       <Button className={classes.submitBtn} variant="contained">
         Submit
       </Button>
+      </div>
     </form>
   );
 }
