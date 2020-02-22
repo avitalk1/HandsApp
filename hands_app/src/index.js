@@ -4,27 +4,21 @@ import './index.css';
 import { BrowserRouter as Router } from 'react-router-dom';
 import ReactRouter from './router/router';
 import * as serviceWorker from './serviceWorker';
-import Login from './Components/FormInputs/Login';
-import Signup from './Components/FormInputs/Signup';
-import Request from './Components/FormInputs/Request';
-import Post from './Components/FormInputs/Post';
-import PostThumbnail from './Components/PostThumbnail';
-import PostView from './Components/PostView';
-import RequestsView from './Components/RequestsView';
-import RequestView from './Components/RequestView';
 import Footer from './Components/Footer';
 import logo from './images/logo.png';
+import Posts from './pages/Posts'
+import AdminInbox from './pages/AdminInbox'
+import RequestForm from './Components/RequestForm'
+// ReactDOM.render(
+//     <Router>
+//         <img src={logo} className="logo" alt="logo" />
+//         <ReactRouter />
+//         <Footer/>
+//     </Router>,
+//     document.getElementById('root')
 
-ReactDOM.render(
-    <Router>
-        <img src={logo} className="logo" alt="logo" />
-        <ReactRouter />
-        <Footer/>
-    </Router>,
-    document.getElementById('root')
-
-)
-// ReactDOM.render(<RequestView />, document.getElementById('root'));
+// )
+ReactDOM.render(<RequestForm />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
