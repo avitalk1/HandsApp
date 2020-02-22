@@ -16,10 +16,12 @@ import {
 
 const useStyles = makeStyles({
   title: {
-    color: "#F4976C"
+    color: "#F4976C",
+    marginTop:"5%"
   },
   topInput: {
     width:"100%",
+    marginTop:"10%",
     "& .MuiFormControl-root": {
       margin: 0,
       color: "#F4976C"
@@ -52,7 +54,7 @@ const useStyles = makeStyles({
     color: "#F4976C",
     fontSize: "30px",
     position: "absolute",
-    right: 0
+    right: "5%"
   },
   selecter: {
     backgroundColor: "none"
@@ -67,10 +69,12 @@ const useStyles = makeStyles({
     color: "#F4976C"
   },
   inputConteiner: {
-    width: "45%"
+    width: "45%",
+    marginTop:"5%"
   },
 
   Input: {
+    marginTop:"5%",
     "& .MuiFormControl-root": {
       width: "100%",
       margin: 0,
@@ -123,7 +127,7 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function CreatePost() {
+export default function CreatePostForm() {
   const classes = useStyles();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const materialTheme = createMuiTheme({
@@ -146,7 +150,7 @@ export default function CreatePost() {
   };
 
   return (
-    <div>
+    <div style={{width:"80%"}}>
       <form>
         <div>
           <TextField
@@ -158,7 +162,7 @@ export default function CreatePost() {
           />
         </div>
         <div>
-          <p className={classes.title}>Description</p>
+          <div className={classes.title}>Description</div>
           <TextField
             className={classes.topInput}
             id="outlined-search"
@@ -169,7 +173,7 @@ export default function CreatePost() {
         </div>
         <div className={classes.thirdLine}>
           <div className={classes.inputConteiner}>
-            <p className={classes.title}>Date</p>
+            <div className={classes.title}>Date</div>
             <div className={classes.Input}>
               <ThemeProvider theme={materialTheme}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -192,7 +196,7 @@ export default function CreatePost() {
             </div>
           </div>
           <div className={classes.inputConteiner}>
-            <p className={classes.title}>Professionals Needed</p>
+            <div className={classes.title}>Professionals Needed</div>
             <div className={classes.Input}>
               <FormControl variant="outlined" className={classes.formControl}>
                 <Select
@@ -229,8 +233,8 @@ export default function CreatePost() {
             </div>
           </div>
         </div>
-        <div className={classes.volunteers}>
-          <p className={classes.title}>Number Of Volunteers</p>
+        <div className={classes.inputConteiner}>
+          <div className={classes.title}>Number Of Volunteers</div>
           <TextField
             className={classes.Input}
             id="outlined-search"
