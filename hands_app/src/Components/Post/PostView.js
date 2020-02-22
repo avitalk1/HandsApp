@@ -48,16 +48,20 @@ const postDetails = [
 ];
 const useStyles = makeStyles({
   root: {
-    width: 345,
-    height: 200,
+    width: 250,
+    height: 150,
     backgroundImage:
       "url('https://www.imagesjunction.com/images/img/rose_images.jpg')",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     marginBottom: "40px",
-    borderRadius: "20px"
+    borderRadius: "20px",
+    boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
   },
-
+  centeredContainer:{
+    display: "flex",
+    justifyContent: "center",
+  },
   detailContainer: {
     display: "flex"
   },
@@ -83,19 +87,20 @@ const useStyles = makeStyles({
     justifyContent: "center",
     color: "#F4976C",
     marginTop: "5px",
-    marginBottom: "5px"
+    marginBottom: "5px",
+    position:"relative"
   },
 
   postView: {
-    width: "80%"
+    width: "80%",
   },
   joinBtn: {
-    width: "100%",
+    width: "65%",
     background: "#F4976C",
     color: "white",
     boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
     fontSize: "36px",
-    marginTop: "50px",
+    marginTop: "60px",
     marginBottom: "50px",
     borderRadius: "15px"
   }
@@ -114,7 +119,9 @@ const PostView = props => {
           {props.postContent.title}
         </Typography>
       </div>
+      <div className={classes.centeredContainer}>
       <Card className={classes.root} onClick={handleClick} />
+      </div>
       <div className={classes.postDetailsContainer}>
         {postDetails.map(detail => {
           return (
@@ -128,9 +135,11 @@ const PostView = props => {
           );
         })}
       </div>
+      <div className={classes.centeredContainer}>
       <Button className={classes.joinBtn} variant="contained">
         JOIN
       </Button>
+      </div>
     </div>
   );
 };

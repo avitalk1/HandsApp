@@ -14,7 +14,7 @@ import moment from "moment";
 
 const useStyles = makeStyles({
   root: {
-    height: "80vh",
+    height: "100%",
     width: "100%",
     display: "flex",
     flexDirection: "column",
@@ -61,7 +61,7 @@ const useStyles = makeStyles({
     height: "100%"
   },
   descriptionContainer: {
-    height: "30%",
+    height: "20%",
     overflow: "auto"
   },
   btnContainer: {
@@ -74,9 +74,11 @@ const useStyles = makeStyles({
     color: "white",
     boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
     fontSize: "1.2em",
-    borderRadius: "15px"
+    borderRadius: "15px",
+    marginBottom:"20px"
   }
 });
+
 
 export default function RequestView(props) {
   const classes = useStyles();

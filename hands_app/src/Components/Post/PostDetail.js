@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -18,12 +18,28 @@ const useStyles = makeStyles({
   },
   detailContent: {
     marginLeft: "5%"
+  },
+  columnStyle:{
+    flexDirection:"column"
+  },
+  descriptionStyle:{
+    height:"70px",
+    overflow: "auto"
+  },
+  checkboxes:{
+    display: "grid",
+    gridTemplateRows: "1fr 1fr",
+    gridTemplateColumns: "auto",
+    gridAutoFlow: "column",
+    marginLeft: "5%"
   }
+
 });
 
 const PostDetail = props => {
   const classes = useStyles();
-  //const [postProps, setPostProps] = useState(props);
+  const [detailStyle, setDetailStyle] = useState()
+  const [contumeContentStyle, setContumeContentStyle] = useState();
   const handleClick = () => {
     props.onSelect(props.postId);
   };
@@ -37,7 +53,7 @@ const PostDetail = props => {
       );
     } else if (title === "Professions Needed" && content) {
       return (
-        <div>
+        <div className={classes[contumeContentStyle]}>
           {content.map(pro => {
             return (
               <FormControlLabel
@@ -48,17 +64,27 @@ const PostDetail = props => {
           })}
         </div>
       );
-    } else {
+    }else {
       return (
-        <Typography className={classes.detailContent}>{content}</Typography>
+        <Typography className={`${classes.detailContent} ${classes[contumeContentStyle]}`}>{content}</Typography>
       );
     }
   };
 
+  useEffect(()=>{
+    if(props.title === "Description"){
+      setDetailStyle("columnStyle");
+      setContumeContentStyle("descriptionStyle");
+    }
+    if(props.title === "Professions Needed"){
+      setContumeContentStyle("checkboxes");
+      setDetailStyle("columnStyle");
+    }
+  },[])
   return (
     <div>
       <div>
-        <div className={classes.detailContainer}>
+        <div className={`${classes.detailContainer} ${classes[detailStyle]}`}>
           <div className={classes.detailHeadingContainer}>
             <props.icon />
             <Typography className={classes.detailHeading}>

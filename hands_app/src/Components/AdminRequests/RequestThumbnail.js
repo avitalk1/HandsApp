@@ -41,7 +41,6 @@ export default function RequestThumbnail(props) {
   };
   useEffect(()=>{
     if(props.index === props.selectedIndex){
-      console.log(props.index, "im selected")
       setListItemStyle("selected")
     }else{
       setListItemStyle("notSelected")
