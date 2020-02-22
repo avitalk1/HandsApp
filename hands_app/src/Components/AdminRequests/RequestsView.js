@@ -4,7 +4,7 @@ import List from "@material-ui/core/List";
 import RequestThumbnail from "./RequestThumbnail";
 const useStyles = makeStyles(theme => ({
   root: {
-    height: "80vh",
+    height: "100%",
     overflow: "auto"
   },
   inline: {

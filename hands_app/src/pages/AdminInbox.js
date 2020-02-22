@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import RequestsView from "../Components/AdminRequests/RequestsView";
 import RequestView from "../Components/AdminRequests/RequestView";
+import { Typography } from "@material-ui/core";
 
 const appRequests = [
   {
@@ -428,8 +429,10 @@ const appRequests = [
 const useStyles = makeStyles({
   root: {
     width: "100%",
-    height: "80vh",
-    display: "flex"
+    height: "90vh",
+    display: "flex",
+    flexDirection:"column",
+    justifyContent:"space-between"
   },
 
   inboxView: {
@@ -437,6 +440,21 @@ const useStyles = makeStyles({
   },
   requestView: {
     width: "64%"
+  },
+  pageTitle: {
+    marginTop: "4%",
+    marginLeft: "2%",
+    fontWeight: "bold",
+    lineHeight: "56px",
+    letterSpacing: "0.1em",
+    fontSize: "2em",
+    color: "#07889B"
+  },
+  pageBody:{
+    display: "flex",
+    height:"80vh",
+    overflow:"hidden"
+    
   }
 });
 
@@ -457,11 +475,14 @@ export default function AdminInbox() {
   };
   return (
     <div className={classes.root}>
+      <Typography className={classes.pageTitle}>Requests Inbox</Typography>
+      <div className={classes.pageBody}>
       <div className={classes.inboxView}>
         <RequestsView requests={requests} onSelect={handleRequestSelect} />
       </div>
       <div className={classes.requestView}>
         <RequestView request={selectedRequest} />
+      </div>
       </div>
     </div>
   );

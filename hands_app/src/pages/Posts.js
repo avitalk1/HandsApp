@@ -26,10 +26,10 @@ const appPosts = [
         city: "Ramat-Gan",
         floor: 4
       },
-      description: "First Request Description ..."
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     },
     costum_description: {
-      changed: true,
+      changed: false,
       description: "First Request Costume Description"
     },
     number_of_volunteers: {
@@ -46,7 +46,22 @@ const appPosts = [
         _id: "5e2f0a31627eff0017da3fee",
         profession: "Plumber",
         number_needed: 16
-      }
+      },
+      {
+        _id: "5e2f0a31627eff0017da3fee",
+        profession: "Plumber",
+        number_needed: 16
+      },
+      {
+        _id: "5e2f0a31627eff0017da3fee",
+        profession: "Plumber",
+        number_needed: 16
+      },
+      {
+        _id: "5e2f0a31627eff0017da3fee",
+        profession: "Plumber",
+        number_needed: 16
+      },
     ]
   },
   {
@@ -805,12 +820,15 @@ const useStyles = makeStyles({
     flexWrap: "wrap",
     justifyContent: "space-around",
     overflow: "hidden",
-    width: "70%"
+    width: "70%",
+    position:"relative"
   },
   gridList: {
-    height: 600,
+    height: 550,
     justifyContent: "space-around",
-    marginto: 5
+    marginto: 5,
+    position:"absolute",
+    bottom:"4%"
   },
   postViewContainer: {
     background: "white",
@@ -821,7 +839,7 @@ const useStyles = makeStyles({
   pageTitle: {
     position: "absolute",
     left: "6%",
-    top: "6%",
+    top: "8%",
     fontWeight: "bold",
     lineHeight: "56px",
     letterSpacing: "0.1em",
@@ -834,7 +852,7 @@ export default function App() {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState({});
-
+  const [selectedPostIndex, setSelectedPostIndex] = useState(0);
   useEffect(() => {
     setPosts(appPosts);
   }, []);
@@ -866,6 +884,7 @@ export default function App() {
     setSelectedPost(makeSelectedPost);
   };
   const handlePostSelect = value => {
+    setSelectedPostIndex(value);
     maketSelectedPostFunction(value);
   };
   let content = (
@@ -882,6 +901,7 @@ export default function App() {
                 key={post._id}
                 title={post.request.subject}
                 date={post.selected_dates.from}
+                selectedPostI={selectedPostIndex}
               />
             );
           })}
