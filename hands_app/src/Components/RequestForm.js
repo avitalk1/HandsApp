@@ -308,14 +308,15 @@ export default function RequestForm() {
                   {...getInputProps()}
                 />
                 <div>
-                  {suggestions.map(suggestion => {
-                    return (
-                      <div {...getSuggestionItemProps(suggestion)}>
-                        {suggestion.description}
-                      </div>
-                    );
-                  })}
-                </div>
+                {suggestions.map(suggestion => {
+                  const style = { backgroundColor : suggestion.active ? "#F4976C" : "white" ,color:suggestion.active ? "white" : "black"}
+                  return (
+                    <div {...getSuggestionItemProps(suggestion , {style})}>
+                      {suggestion.description}
+                    </div>
+                  );
+                })}
+              </div>
               </div>
             )}
           </PlacesAutocomplete>
@@ -379,7 +380,6 @@ export default function RequestForm() {
               }}
               onDrop={onFileLoad}
               onChange={onFileLoad}
-              // onClick={() => fileInput.click()}
             />
             <div className={classes.filesBrowser}>
               <AddIcon style={inlineStyles[0].icon} className={classes.plus} />
@@ -404,7 +404,7 @@ export default function RequestForm() {
               }}
               onDrop={onFileLoad}
               onChange={onFileLoad}
-              // onClick={() => fileInput.click()}
+              
             />
             <div className={classes.filesBrowser}>
               <AddIcon style={inlineStyles[1].icon} className={classes.plus} />
@@ -429,7 +429,6 @@ export default function RequestForm() {
               }}
               onDrop={onFileLoad}
               onChange={onFileLoad}
-              // onClick={() => fileInput.click()}
             />
             <div className={classes.filesBrowser}>
               <AddIcon style={inlineStyles[2].icon} className={classes.plus} />
@@ -454,7 +453,7 @@ export default function RequestForm() {
               }}
               onDrop={onFileLoad}
               onChange={onFileLoad}
-              //    onClick={() => fileInput.click()}
+          
             />
             <div className={classes.filesBrowser}>
               <AddIcon style={inlineStyles[3].icon} className={classes.plus} />

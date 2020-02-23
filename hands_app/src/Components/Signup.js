@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import PlacesAutocomplete from "react-places-autocomplete";
+import PlacesAutocomplete , {
+  geocodeByAddress,
+  getLatLng
+} from "react-places-autocomplete";
 import axios from "axios";
 import {
   Button,
@@ -81,6 +84,8 @@ const Signup = () => {
   const [profession, setProfession] = useState("");
   const [initial, setInitial] = useState(true);
   const [signupSuccess, setSignupSuccess] = useState(false);
+  const [coordinates,setCoordinates]=useState({lat:null,lng:null})
+
   const fetchPost = async () => {
     const user = {
       first_name: firstName,
@@ -199,8 +204,9 @@ const Signup = () => {
               />
               <div>
                 {suggestions.map(suggestion => {
+                  const style = { backgroundColor : suggestion.active ? "#F4976C" : "white" ,color:suggestion.active ? "white" : "black"}
                   return (
-                    <div {...getSuggestionItemProps(suggestion)}>
+                    <div {...getSuggestionItemProps(suggestion , {style})}>
                       {suggestion.description}
                     </div>
                   );
