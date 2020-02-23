@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PlacesAutocomplete , {
-  geocodeByAddress,
-  getLatLng
-} from "react-places-autocomplete";
+import PlacesAutocomplete from "react-places-autocomplete";
 import axios from "axios";
 import {
   Button,
@@ -12,6 +9,8 @@ import {
   InputLabel
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+
+
 const useStyles = makeStyles({
   formContainer: {
     maxWidth: "80%",
@@ -84,7 +83,7 @@ const Signup = () => {
   const [profession, setProfession] = useState("");
   const [initial, setInitial] = useState(true);
   const [signupSuccess, setSignupSuccess] = useState(false);
-  const [coordinates,setCoordinates]=useState({lat:null,lng:null})
+
 
   const fetchPost = async () => {
     const user = {
@@ -189,8 +188,7 @@ const Signup = () => {
           {({
             getInputProps,
             suggestions,
-            getSuggestionItemProps,
-            loading
+            getSuggestionItemProps
           }) => (
             <div>
               <TextField
