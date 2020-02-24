@@ -110,7 +110,7 @@ const PostView = props => {
   const classes = useStyles();
 
   const handleClick = () => {
-    //console.log(props.postContent);
+    
   };
   return (
     <div className={classes.postView}>

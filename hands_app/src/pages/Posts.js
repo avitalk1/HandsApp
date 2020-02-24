@@ -10,7 +10,7 @@ const appPosts = [
   {
     selected_dates: {
       from: "2020-02-03",
-      to: "2020-02-04"
+                         to: "2020-02-04"
     },
 
     _id: 1,
