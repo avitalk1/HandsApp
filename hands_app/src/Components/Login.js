@@ -123,7 +123,8 @@ const Login = () => {
       <Redirect
         to={{
           pathname: "/admin",
-          state: { userId: loggedInUser._id }
+          state: { userId: loggedInUser._id },
+          rerender:false
         }}
       />
       );

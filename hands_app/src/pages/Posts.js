@@ -848,13 +848,24 @@ const useStyles = makeStyles({
   }
 });
 
-export default function App() {
+export default function Posts(props) {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState({});
   const [selectedPostIndex, setSelectedPostIndex] = useState(0);
+
+  
+  const fetchPosts = async () => {
+    try{
+      const results = await axios.get(`https://hands-app.herokuapp.com/post/showAllPosts`);
+      setPosts(results.data)
+    }catch(err){
+      console.log(err);
+    }
+     
+  }
   useEffect(() => {
-    setPosts(appPosts);
+    fetchPosts()
   }, []);
   useEffect(() => {
     if (posts.length !== 0) {
@@ -881,6 +892,7 @@ export default function App() {
       makeSelectedPost.professions[index] = pro.profession;
     });
     makeSelectedPost.title = posts[index].request.subject;
+    makeSelectedPost.id = posts[index]._id
     setSelectedPost(makeSelectedPost);
   };
   const handlePostSelect = value => {
@@ -908,7 +920,7 @@ export default function App() {
         </GridList>
       </div>
       <div className={classes.postViewContainer}>
-        <PostView key={selectedPost._id} postContent={selectedPost} />
+        <PostView key={selectedPost.id} postContent={selectedPost} userId={props.location.state.userId} />
       </div>
     </div>
   );

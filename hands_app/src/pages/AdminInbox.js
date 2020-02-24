@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import RequestsView from "../Components/AdminRequests/RequestsView";
 import RequestView from "../Components/AdminRequests/RequestView";
 import { Typography } from "@material-ui/core";
+import axios from "axios"
 
 const appRequests = [
   {
@@ -458,13 +459,28 @@ const useStyles = makeStyles({
   }
 });
 
-export default function AdminInbox() {
+export default function AdminInbox(props) {
   const [requests, setRequests] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState();
+  const [doRerender, setDoRerender] = useState(props.location.state.rerender)
   const classes = useStyles();
+
+  const fetchRequests = async () => {
+    try{
+      const results = await axios.get(`https://hands-app.herokuapp.com/request/showAll`);
+      setRequests(results.data)
+    }catch(err){
+      console.log(err);
+    }
+     
+  }
+
+  const handleOnPost = (post) => {
+    console.log(post);
+}
   useEffect(() => {
-    setRequests(appRequests);
-  }, []);
+    fetchRequests();
+  }, [doRerender]);
   useEffect(() => {
     if (requests.length !== 0) {
       handleRequestSelect(0);
@@ -481,7 +497,7 @@ export default function AdminInbox() {
         <RequestsView requests={requests} onSelect={handleRequestSelect} />
       </div>
       <div className={classes.requestView}>
-        <RequestView request={selectedRequest} />
+        <RequestView request={selectedRequest} userId={props.location.state.userId} />
       </div>
       </div>
     </div>

@@ -13,7 +13,6 @@ import CreatePost from './Components/Post/CreatePostForm'
 import PostPhotos from './Components/Post/PostPhotos'
 import CreatePostPage from './pages/CreatePostPage'
 import RequestPage from './pages/Request'
-
 ReactDOM.render(
     <Router>
         <img src={logo} className="logo" alt="logo" />
@@ -21,7 +20,6 @@ ReactDOM.render(
         <Footer/>
     </Router>,
     document.getElementById('root')
-
 )
 //ReactDOM.render(<CreatePostPage />, document.getElementById('root'));
 

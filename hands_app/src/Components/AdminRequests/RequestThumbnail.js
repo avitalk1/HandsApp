@@ -21,7 +21,11 @@ const useStyles = makeStyles(theme => ({
   req_header: {
     display: "flex",
     justifyContent: "space-between"
-  }
+  },
+  avatar: {
+    backgroundColor: "#FFCB9A",
+    color: "#F4976C"
+},
 }));
 
 export default function RequestThumbnail(props) {
@@ -50,7 +54,7 @@ export default function RequestThumbnail(props) {
     <div>
       <ListItem className={classes[listItemStyle]} style={{cursor: "pointer"}} onClick={handleOnClick} alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar className={classes.avatar}>R</Avatar>
+          <Avatar className={classes.avatar}>{props.requester.first[0]}</Avatar>
         </ListItemAvatar>
         <ListItemText
           primary={
@@ -67,7 +71,7 @@ export default function RequestThumbnail(props) {
                 className={classes.inline}
                 color="textPrimary"
               >
-                Ali Connors
+                {`${props.requester.first} ${props.requester.last} `}
               </Typography>
               {formatTextDescription(props.description)}
             </React.Fragment>

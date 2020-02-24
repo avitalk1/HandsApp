@@ -11,7 +11,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DeleteIcon from "@material-ui/icons/Delete";
 import moment from "moment";
-
+import axios from "axios"
 const useStyles = makeStyles({
   root: {
     height: "100%",
@@ -84,11 +84,25 @@ export default function RequestView(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [requestView, setRequestView] = useState();
+  const [deleted, setDeleted] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
-
-  const handleClose = () => {
+  const handleDelete = async () => {
+    const user = {requestId: props.request._id}
+    try{
+      const result = await fetch(`https://hands-app.herokuapp.com/request/rejectRequest/${props.request._id}`, {
+        method: 'DELETE'
+      })
+      setDeleted(true);
+    }catch(err){
+        console.log(err);
+    }
+  }
+  const handleClose = (flag) => {
+    if(flag){
+      handleDelete();
+    }
     setOpen(false);
   };
   const constructLocationView = () => {
@@ -101,11 +115,11 @@ export default function RequestView(props) {
     );
   };
 
-  if (props.request) {
+  if (props.request && !deleted) {
     return (
       <div className={classes.root}>
         <div className={`${classes.topContainer} ${classes.flexContainer}`}>
-          <Avatar className={classes.avatar}>R</Avatar>
+          <Avatar className={classes.avatar}>{props.request.requester.name.first[0]}</Avatar>
           <Typography className={classes.costumeTextColor}>
             {moment(props.request.created_date).format("MM/DD/YYYY")}
           </Typography>
@@ -136,10 +150,10 @@ export default function RequestView(props) {
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleClose} color="primary">
+                  <Button onClick={()=>handleClose(false)} color="primary">
                     Disagree
                   </Button>
-                  <Button onClick={handleClose} color="primary" autoFocus>
+                  <Button onClick={()=>handleClose(true)} color="primary" autoFocus>
                     Agree
                   </Button>
                 </DialogActions>
@@ -175,7 +189,7 @@ export default function RequestView(props) {
             <Button className={classes.acceptBtn} variant="contained" component={RouterLink}
             to={{
               pathname: "/createpost",
-              state: { request: props.request }
+              state: { request: props.request, userId: props.userId }
             }}>
               Accept and Write a Post
             </Button>

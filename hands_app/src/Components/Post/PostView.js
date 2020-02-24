@@ -9,6 +9,7 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import SentimentSatisfiedOutlinedIcon from "@material-ui/icons/SentimentSatisfiedOutlined";
 import BuildOutlinedIcon from "@material-ui/icons/BuildOutlined";
 import PostDetail from "./PostDetail";
+import axios from "axios";
 const postDetails = [
   {
     icon: LocationOnIcon,
@@ -106,16 +107,29 @@ const useStyles = makeStyles({
   }
 });
 
+
 const PostView = props => {
   const classes = useStyles();
 
+  const putData = async () => {
+    console.log(props.userId)
+    let user = { volunteersId: props.userId}
+   
+
+    try{
+      const result = await axios.put(`https://hands-app.herokuapp.com/post/${props.postContent.id}/joinEvent`, user)
+      console.log(result);
+    }catch(err){
+      console.log(err)
+    }
+  }
   const handleClick = () => {
-    //console.log(props.postContent);
+    putData()
   };
   return (
     <div className={classes.postView}>
       <div className={classes.postViewTitle}>
-        <Typography style={{ fontSize: "2.25em" }}>
+        <Typography style={{ fontSize: "1.5em", fontWeight:"bold" }}>
           {props.postContent.title}
         </Typography>
       </div>
@@ -136,7 +150,7 @@ const PostView = props => {
         })}
       </div>
       <div className={classes.centeredContainer}>
-      <Button className={classes.joinBtn} variant="contained">
+      <Button onClick={handleClick} className={classes.joinBtn} variant="contained">
         JOIN
       </Button>
       </div>

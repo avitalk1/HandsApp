@@ -63,7 +63,7 @@ export default function CreatePostPage(props) {
                     </div>
                     <div className={classes.rightColumn}></div>
                 </div>
-                <div  className={classes.formContainer}><CreatePostForm requestDetails={request}/></div>
+                <div  className={classes.formContainer}><CreatePostForm requestDetails={request}  userId={props.location.state.userId}/></div>
             </div>
         </div>
     );
