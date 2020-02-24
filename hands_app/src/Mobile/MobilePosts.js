@@ -12,18 +12,21 @@ const useStyles = makeStyles({
         height: "46px"
     },
     root: {
+        position: "fixed",
         height: "100vh",
         marginTop: 0,
-        position: "relative"
+        width:"100%",
+        clipPath: "ellipse(80% 30% at 40% 0%)",
+        background: "linear-gradient(44.78deg, #07889B -14.33%, #66B9BF 60.38%, #FF9AF5 117.11%)",
     },
     haederBackground: {
         height: "350px",
         width: "150%",
-        background: "linear-gradient(44.78deg, #07889B -14.33%, #66B9BF 60.38%, #FF9AF5 117.11%)",
+       
         borderRadius: "60%",
         marginTop: "-300px",
         marginLeft: "-120px",
-        position: "fixed"
+       
     },
     subject: {
         color: "white",
@@ -50,14 +53,16 @@ const useStyles = makeStyles({
         
     },
     gridContainer: {
-        marginTop: "7%",
-        paddingTop: "5px",
+        // marginTop: "7%",
+        // paddingTop: "5px",
+        height:"100%",
         display: "flex",
         flexWrap: "wrap",
-        justifyContent: "space-around",
-        overflow: "hidden",
+        // justifyContent: "space-around",
+        justifyContent: "center",
+        // overflow: "hidden",
         width: "70%",
-        position: "relative"
+        // position: "relative"
     },
     gridList: {
         height: 550,
@@ -66,6 +71,9 @@ const useStyles = makeStyles({
         position: "absolute",
         bottom: "4%"
     },
+    topContainer:{
+        position: "fixed",
+    }
 })
 
 const appPosts = [
@@ -882,10 +890,11 @@ const MobilePosts = (props) => {
 
     let content = (
         <div className={classes.formWrapper}>
-            <div className={classes.root}>
+            <div className={classes.root}> </div>
+            <div className={classes.topContainer}>
                 <div className={classes.header}></div>
                 <div className={classes.subject}><h1 className={classes.welcome}>Posts</h1></div>
-                <div className={classes.haederBackground} />
+                </div>
                 <div className={classes.postsContainer}>
                     <div className={classes.gridContainer}>
                         <GridList cellHeight={180} className={classes.gridList}>
@@ -904,7 +913,7 @@ const MobilePosts = (props) => {
                         </GridList>
                     </div>
                 </div>
-            </div>
+            
         </div>
     )
 
