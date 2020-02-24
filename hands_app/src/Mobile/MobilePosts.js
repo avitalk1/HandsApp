@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PostThumbnail from "../Components/Post/PostThumbnail";
 import GridList from "@material-ui/core/GridList";
+import PostView from "../Components/Post/PostView";
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
     formWrapper: {
@@ -15,65 +16,46 @@ const useStyles = makeStyles({
         position: "fixed",
         height: "100vh",
         marginTop: 0,
-        width:"100%",
-        clipPath: "ellipse(80% 30% at 40% 0%)",
-        background: "linear-gradient(44.78deg, #07889B -14.33%, #66B9BF 60.38%, #FF9AF5 117.11%)",
-    },
-    haederBackground: {
-        height: "350px",
-        width: "150%",
-       
-        borderRadius: "60%",
-        marginTop: "-300px",
-        marginLeft: "-120px",
-       
+        width: "100%",
+        clipPath: "ellipse(90% 20% at 40% 0%)",
+        background: "linear-gradient(44.78deg, #07889B -14.33%, #66B9BF 60.38%, #FF9AF5 160.11%)",
     },
     subject: {
         color: "white",
         marginLeft: "35px",
-        marginTop: 0,
         position: "relative",
-        zIndex: 100
-    },
-    welcome: {
-        fontSize: "45px",
-        marginTop: "15%",
-
+        fontSize: "24px",
+        marginTop: "10%",
+        zIndex: 100,
     },
     formContainer: {
         width: "100%",
         marginTop: "10%",
-        marginLeft: "10%"
-    },
-    postsContainer: {
-        width: "100%",
-        display: "flex",
-        height: "90vh",
-        justifyContent: "space-around",
-        
     },
     gridContainer: {
-        // marginTop: "7%",
-        // paddingTop: "5px",
-        height:"100%",
+        height: "100%",
         display: "flex",
         flexWrap: "wrap",
-        // justifyContent: "space-around",
-        justifyContent: "center",
-        // overflow: "hidden",
-        width: "70%",
-        // position: "relative"
+        width: "100%",
     },
     gridList: {
         height: 550,
         justifyContent: "space-around",
-        marginto: 5,
         position: "absolute",
-        bottom: "4%"
+        bottom: "2%",
+        '& .makeStyles-mobileRoot-32': {
+            width: 120,
+            height: 100,
+            marginRight: "5px",
+            marginLeft: "5px"
+        }
     },
-    topContainer:{
+    card: {
+        width: "40%"
+    },
+    topContainer: {
         position: "fixed",
-    }
+    },
 })
 
 const appPosts = [
@@ -879,43 +861,82 @@ const MobilePosts = (props) => {
     const classes = useStyles();
     const [posts, setPosts] = useState([]);
     const [selectedPost, setSelectedPost] = useState({});
-    const [selectedPostIndex, setSelectedPostIndex] = useState(0);
+    const [selectedPostIndex, setSelectedPostIndex] = useState(-1);
+    let content;
+
+    const maketSelectedPostFunction = index => {
+        let makeSelectedPost = {};
+        makeSelectedPost.location = posts[index].request.location.city;
+        makeSelectedPost.date = posts[index].selected_dates.from;
+        makeSelectedPost.num_of_voulnteers = [
+            posts[index].number_of_volunteers.joined,
+            posts[index].number_of_volunteers.need
+        ];
+
+        if (posts[index].costum_description.changed) {
+            makeSelectedPost.description =
+                posts[index].costum_description.description;
+        } else {
+            makeSelectedPost.description = posts[index].request.description;
+        }
+        makeSelectedPost.professions = [];
+        posts[index].professions.map((pro, index) => {
+            makeSelectedPost.professions[index] = pro.profession;
+        });
+        makeSelectedPost.title = posts[index].request.subject;
+        setSelectedPost(makeSelectedPost);
+    };
 
     const handlePostSelect = value => {
         setSelectedPostIndex(value);
+        maketSelectedPostFunction(value);
     };
+
     useEffect(() => {
         setPosts(appPosts);
     }, []);
-
-    let content = (
-        <div className={classes.formWrapper}>
-            <div className={classes.root}> </div>
-            <div className={classes.topContainer}>
-                <div className={classes.header}></div>
-                <div className={classes.subject}><h1 className={classes.welcome}>Posts</h1></div>
+    if (selectedPostIndex === -1) {
+        content = (
+            <div className={classes.formWrapper}>
+                <div className={classes.root}> </div>
+                <div className={classes.topContainer}>
+                    <div className={classes.header}></div>
+                    <div className={classes.subject}><h1>Posts</h1></div>
                 </div>
-                <div className={classes.postsContainer}>
                     <div className={classes.gridContainer}>
                         <GridList cellHeight={180} className={classes.gridList}>
                             {posts.map((post, index) => {
                                 return (
                                     <PostThumbnail
+                                        className={classes.card}
                                         onSelect={handlePostSelect}
                                         postIndex={index}
-                                        key={post._id}
-                                        title={post.request.subject}
-                                        date={post.selected_dates.from}
                                         selectedPostI={selectedPostIndex}
+                                        isMobile={true}
                                     />
                                 );
                             })}
                         </GridList>
-                    </div>
                 </div>
-            
-        </div>
-    )
+            </div>
+        )
+    } else {
+        content = (
+            <div className={classes.formWrapper}>
+                <div className={classes.root}> </div>
+                <div className={classes.topContainer}>
+                    <div className={classes.header}></div>
+                </div>
+                <div className={classes.postContainer}>
+                 <PostView key={selectedPost._id} postContent={selectedPost} isMobile={true}/>
+                </div>
+
+            </div>
+        )
+
+
+    }
+
 
     return content;
 }

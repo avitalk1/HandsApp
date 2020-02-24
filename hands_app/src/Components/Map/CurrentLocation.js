@@ -51,7 +51,7 @@ export class CurrentLocation extends React.Component {
                 currentLocation: {
                   lat: coords.latitude,
                   lng: coords.longitude
-                }
+                },
               });
             });
           }
@@ -78,6 +78,7 @@ export class CurrentLocation extends React.Component {
           );
     
           this.map = new maps.Map(node, mapConfig);
+          
         }
       }
       renderChildren() {

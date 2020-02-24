@@ -5,7 +5,6 @@ import MobileLandingPage from "../Mobile/MobileLandingPage";
 import UserConnect from "../pages/UserConnect";
 import UserLogin from "../Mobile/UserLogin";
 import Posts from "../pages/Posts";
-import Post from "../Mobile/Post";
 import MobilePosts from "../Mobile/MobilePosts";
 import AdminInbox from "../pages/AdminInbox";
 import Map from '../Mobile/Map';
@@ -34,7 +33,6 @@ const ReactRouter = () => {
         <Route exact path="/" component={MobileLandingPage} />
         <Route path="/connection" render={(props) => <UserLogin {...props}/>} />
         <Route path="/posts" render={(props) => <MobilePosts {...props}/>}/> 
-        <Route path="/post" render={(props) => <Post {...props}/>}/>
         <Route path="/map" render={(props) => <Map {...props}/>}/>
       </React.Fragment>
 

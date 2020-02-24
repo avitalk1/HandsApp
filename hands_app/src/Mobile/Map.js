@@ -12,62 +12,52 @@ const useStyles = makeStyles({
         height: "46px"
     },
     root: {
+        position: "fixed",
         height: "100vh",
-        position: "relative"
-    },
-    haederBackground: {
-        height: "320px",
-        width: "150%",
-        background: "linear-gradient(44.78deg, #07889B -14.33%, #66B9BF 60.38%, #FF9AF5 117.11%)",
-        borderRadius: "60%",
-        marginTop: "-300px",
-        marginLeft: "-120px",
-        position: "fixed"
-
-
+        marginTop: 0,
+        width: "100%",
+        clipPath: "ellipse(90% 22% at 40% 0%)",
+        background: "linear-gradient(44.78deg, #07889B -14.33%, #66B9BF 60.38%, #FF9AF5 160.11%)",
+        zIndex:100
     },
     subject: {
         color: "white",
         marginLeft: "35px",
-        marginTop: 0,
-        position: "absolute",
-        zIndex: 100
-    },
-    welcome: {
-        fontSize: "45px",
-        marginTop: "10%",
-        marginBottom: "auto",
-    },
-    date: {
-        fontSize: "20px",
+        fontSize: "24px",
+        marginTop: "5%",
+        position: "relative",
     },
     formContainer: {
         width: "100%",
-        
+        marginTop: "10%",
+        marginLeft: "10%"
     },
+    MapContainer: {
+    },
+    Map:{
+    },
+    topContainer: {
+        position: "fixed",
+    }
 })
 const Maping = () => {
     const classes = useStyles();
 
     let content = (
         <div className={classes.formWrapper}>
-            <div className={classes.root}>
+            <div className={classes.root}> </div>
+            <div className={classes.topContainer}>
                 <div className={classes.header}></div>
-                <div className={classes.haederBackground} />
-                <div className={classes.subject}>
-
-                    <h1 className={classes.welcome}>Happens now</h1>
-                </div>
-                <div className={classes.formContainer}>
-                    <ShowMap />
-                </div>
-               
-
-
+                <div className={classes.subject}><h1>Happens Now</h1></div>
             </div>
+            <div className={classes.MapContainer}>
+                <div className={classes.Map}>
+                    <ShowMap className={classes.Map}/>
+                </div>
+            </div>
+
         </div>
     )
-
     return content;
 }
 
