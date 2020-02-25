@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import backgroundPhoto from '../images/requestBackground.png';
-import requestForm from '../Components/RequestForm';
 import RequestForm from '../Components/RequestForm';
 
 const useStyles = makeStyles({

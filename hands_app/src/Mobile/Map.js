@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import PostView from "../Components/Post/PostView";
 import ShowMap from '../Components/Map/ShowMap';
 const useStyles = makeStyles({
     formWrapper: {

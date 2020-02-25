@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import CheckIcon from "@material-ui/icons/Check";
 import { createMuiTheme } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";

@@ -51,7 +51,7 @@ const useStyles = makeStyles({
     }
 })
 export default function CreatePostPage(props) {
-    const [request, setRequest] = useState(props.location.state.request);
+    const [request] = useState(props.location.state.request);
     const classes = useStyles();
     return (
         <div>
