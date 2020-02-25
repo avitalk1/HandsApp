@@ -67,7 +67,7 @@ const useStyles = makeStyles({
 });
 
 export default function LandingPage(props) {
-  props.onPageLoad(window.location.pathname);
+ 
   const classes = useStyles();
 
   return (

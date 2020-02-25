@@ -31,7 +31,7 @@ const ReactRouter = () => {
         <Route path="/admin" render={(props) => <AdminInbox {...props}/>}/>
         <Route path="/createpost" render={(props) => <CreatePostPage {...props}/>}/>
         <Route path="/request" render={(props) => <Request {...props}/>}/>
-        <Footer location={window.location.pathname}/>
+        <Footer/>
       </React.Fragment>
     );
   }
@@ -40,7 +40,7 @@ const ReactRouter = () => {
       <React.Fragment>
         <Route exact path="/" render={(props) => <MobileLandingPage {...props } onPageLoad={setCurrentLocation}/>} />
         <Route path="/connection" render={(props) => <UserLogin {...props } onPageLoad={setCurrentLocation}/>} />
-        <Route path="/posts" render={(props) => <MobilePosts {...props} selectedIndex={homePage} />}/> 
+        <Route path="/posts" render={(props) => <MobilePosts {...props} selectedIndex={homePage} onPageLoad={setCurrentLocation}/>}/> 
         <Route path="/map" render={(props) => <Map {...props}/>}/>
         <Footer location={currentLocation} onHomeClick={setHomePageFunction}/>
       </React.Fragment>

@@ -79,14 +79,8 @@ const useStyles = makeStyles({
 
 })
 function Footer(props) {
-    console.log(props)
     const classes = useStyles();
     const matches = useMediaQuery('(min-width:415px)');
-    const handleHomeClick = () => {
-        if(props.location === "/posts/post"){
-           window.location.reload();
-        }
-    }
     if (matches === true) {
         return (
             <div className={classes.footerContainer}>
@@ -103,6 +97,7 @@ function Footer(props) {
             </div>
         )
     } else {
+        console.log(props)
         if (props.location === "/" || props.location === "/connection/login") {
             return null;
         }

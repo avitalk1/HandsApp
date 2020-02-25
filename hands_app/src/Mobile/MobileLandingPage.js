@@ -43,7 +43,8 @@ const useStyles = makeStyles({
 
 });
 
-export default function LandingPage() {
+export default function MobileLandingPage(props) {
+  props.onPageLoad(window.location.pathname);
   const classes = useStyles();
   return (
 
