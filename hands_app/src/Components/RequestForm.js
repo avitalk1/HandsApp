@@ -1,5 +1,5 @@
 import "date-fns";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, TextField } from "@material-ui/core";
 import PlacesAutocomplete from "react-places-autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,6 +11,7 @@ import {
   KeyboardDatePicker
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import axios from "axios";
 const materialTheme = createMuiTheme({
   overrides: {
     MuiPickersDay: {
@@ -163,19 +164,27 @@ const useStyles = makeStyles({
 
 export default function RequestForm() {
   const classes = useStyles();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [newRequest, setNewRequest] = useState({
+      first_name: "",
+      last_name: "",
+      email:"",
+      phone_number:"",
+      subject:"",
+      date_from: new Date(),
+      date_to: new Date(),
+      location:"",
+      images:[] ,
+  });
+
   const [validEmail, setValidEmail] = useState("");
   const [address, setAddress] = useState("");
-  const [description, setDescription] = useState("");
   const [fileInput, setFileInput] = useState("");
   const [initial, setInitial] = useState(true);
   const [success, setRequestSuccess] = useState(false);
-  const [previewImg, setPreviewImg] = useState(["", "", "", ""]);
+  const [previewImg, setPreviewImg] = useState([]);
   const [files, setFiles] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [uploadHandleState, setUploadHandleState] = useState(true);
   const [inlineStyles, setInlineStyles] = useState([
     {
       img: { display: "none" },
@@ -198,36 +207,74 @@ export default function RequestForm() {
   const handleDateChange = date => {
     setSelectedDate(date);
   };
-
+  const handleOnChange = (e) => {
+    let tempNewRequest = newRequest;
+    tempNewRequest[e.target.name] = e.target.value;
+   
+    setNewRequest(tempNewRequest);
+  }
+  const postData = async () => {
+    let formData = new FormData();
+    for (const key of Object.keys(newRequest)) {
+      if(key != "images")
+          formData.append(`${key}`, newRequest[key]);
+    }
+    for(const key of Object.keys(newRequest.images)){
+      console.log(newRequest.images[key])
+        formData.append('images',newRequest.images[key] )
+    }
+    try{
+        const result = await axios.post("https://hands-app.herokuapp.com/request/addRequest", formData);
+        console.log(result);
+    }catch(err){
+      console.log(err);
+    }
+  }
+  const handleOnSubmit = () => {
+    let tempNewRequest = newRequest;
+    tempNewRequest["location"] = address;
+    tempNewRequest["date_from"]= selectedDate;
+    tempNewRequest["date_to"] = selectedDate;
+    tempNewRequest["subject"] = tempNewRequest.description.substring(0, 15);
+    setNewRequest(tempNewRequest)
+    postData();
+  }
+  useEffect(() => {
+  }, [previewImg])
   const onFileLoad = e => {
-    const file = e.target.files[0] || e.dataTransfer.files[0];
-    let index = e.target.getAttribute("imgindex");
-    let newPreviewImg = previewImg;
-    newPreviewImg[index] = URL.createObjectURL(file);
-    setPreviewImg(newPreviewImg);
-    let newInlineStyles = inlineStyles;
+    console.log("1")
+    if(!e.dataTransfer){
+      const file = e.target.files[0] || e.dataTransfer.files[0];
+      let tempNewRequest = newRequest;
+      tempNewRequest["images"].push(file);
+      setNewRequest(tempNewRequest)
+      let index = e.target.getAttribute("imgindex");
+      
+      let newPreviewImg = previewImg;
+      newPreviewImg.push(URL.createObjectURL(file))
+      setPreviewImg(newPreviewImg);
 
-    newInlineStyles[index] = {
-      img: { display: "block" },
-      icon: { display: "none" }
-    };
+      let newInlineStyles = inlineStyles;
+      newInlineStyles[previewImg.length-1] = {
+        img: { display: "block" },
+        icon: { display: "none" }
+      };
+      setInlineStyles(newInlineStyles);
 
-    setInlineStyles(newInlineStyles);
-
-    let fileReader = new FileReader();
-    fileReader.onload = () => {
-      //console.log("image loaded:", fileReader.result);
-
-      setFiles(...files, fileReader.result);
-    };
-    fileReader.onabort = () => {
-      alert("reading aborted");
-    };
-    fileReader.onError = () => {
-      alert("error");
-    };
-
-    fileReader.readAsDataURL(file);
+      let fileReader = new FileReader();
+      fileReader.onload = () => {
+        setFiles(fileReader.result);
+      };
+      fileReader.onabort = () => {
+        alert("reading aborted");
+      };
+      fileReader.onError = () => {
+        alert("error");
+      };
+  
+      fileReader.readAsDataURL(file);
+    }
+  
   };
 
   return (
@@ -241,20 +288,20 @@ export default function RequestForm() {
             id="outlined-helperText"
             label="First Name"
             variant="outlined"
-            value={firstName}
-            onChange={e => setFirstName(e.target.value)}
-            error={!firstName && !initial}
-            helperText={!firstName && !initial ? "first name required" : ""}
+            name="first_name"
+            onChange={handleOnChange}
+            error={!newRequest.first_name && !initial}
+            helperText={!newRequest.first_name && !initial ? "first name required" : ""}
           />
           <TextField
             className={classes.Input}
             id="outlined-helperText"
             label="Last Name"
             variant="outlined"
-            value={lastName}
-            onChange={e => setLastName(e.target.value)}
-            error={!lastName && !initial}
-            helperText={!lastName && !initial ? "last name required" : ""}
+            name="last_name"
+            onChange={handleOnChange}
+            error={!newRequest.last_name && !initial}
+            helperText={!newRequest.last_name && !initial ? "last name required" : ""}
           />
         </div>
         <div className={classes.lineInput}>
@@ -263,8 +310,8 @@ export default function RequestForm() {
             id="outlined-helperText"
             label="Email"
             variant="outlined"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+            name="email"
+            onChange={handleOnChange}
             error={validEmail && !initial}
             helperText={validEmail}
           />
@@ -274,14 +321,14 @@ export default function RequestForm() {
             type="phoneNumber"
             label="Phone Number"
             variant="outlined"
-            value={phoneNumber}
-            error={phoneNumber.length < 8 && !initial}
+            name="phone_number"
+            onChange={handleOnChange}
+            error={newRequest.phone_number.length < 8 && !initial}
             helperText={
-              phoneNumber.length < 8 && !initial
+              newRequest.phone_number.length < 8 && !initial
                 ? "phone number required.."
                 : ""
             }
-            onChange={e => setPhoneNumber(e.target.value)}
           />
         </div>
       </div>
@@ -295,7 +342,6 @@ export default function RequestForm() {
               getInputProps,
               suggestions,
               getSuggestionItemProps,
-              loading
             }) => (
               <div className={classes.locationInputContainer}>
                 <TextField
@@ -348,10 +394,10 @@ export default function RequestForm() {
             id="outlined-helperText"
             label="Description"
             variant="outlined"
-            value={description}
-            onChange={e => setDescription(e.target.value)}
-            error={!description && !initial}
-            helperText={!description && !initial ? "Description required" : ""}
+            name="description"
+            onChange={handleOnChange}
+            error={!newRequest.description && !initial}
+            helperText={!newRequest.description && !initial ? "Description required" : ""}
           />
         </div>
       </div>
@@ -379,7 +425,6 @@ export default function RequestForm() {
               }}
               onDrop={onFileLoad}
               onChange={onFileLoad}
-              // onClick={() => fileInput.click()}
             />
             <div className={classes.filesBrowser}>
               <AddIcon style={inlineStyles[0].icon} className={classes.plus} />
@@ -404,7 +449,6 @@ export default function RequestForm() {
               }}
               onDrop={onFileLoad}
               onChange={onFileLoad}
-              // onClick={() => fileInput.click()}
             />
             <div className={classes.filesBrowser}>
               <AddIcon style={inlineStyles[1].icon} className={classes.plus} />
@@ -417,19 +461,18 @@ export default function RequestForm() {
               style={inlineStyles[2].img}
             />
             <input
-              className={classes.fileInput}
-              imgIndex={2}
-              type="file"
-              id="file-browser-input"
-              name="file-browser-input"
-              ref={input => setFileInput(input)}
-              onDragOver={e => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-              onDrop={onFileLoad}
-              onChange={onFileLoad}
-              // onClick={() => fileInput.click()}
+               className={classes.fileInput}
+               imgIndex={2}
+               type="file"
+               id="file-browser-input"
+               name="file-browser-input"
+               ref={input => setFileInput(input)}
+               onDragOver={e => {
+                 e.preventDefault();
+                 e.stopPropagation();
+               }}
+               onDrop={onFileLoad}
+               onChange={onFileLoad}
             />
             <div className={classes.filesBrowser}>
               <AddIcon style={inlineStyles[2].icon} className={classes.plus} />
@@ -464,7 +507,7 @@ export default function RequestForm() {
       </div>
       </div>
       <div>
-      <Button className={classes.submitBtn} variant="contained">
+      <Button className={classes.submitBtn} variant="contained" onClick={handleOnSubmit}>
         Submit
       </Button>
       </div>
