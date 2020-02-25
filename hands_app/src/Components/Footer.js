@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
+import React from 'react';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import PinterestIcon from '@material-ui/icons/Pinterest';
@@ -87,7 +87,7 @@ function Footer(props) {
                 <div className={classes.topRow}>
                     <div className={classes.leftSide}>
                         <img src={logo} className={classes.logo} alt="logo" />
-                        <div className={classes.icons}><FacebookIcon /><TwitterIcon /><YouTubeIcon /><PinterestIcon /></div>
+                        <div className={classes.icons}><FacebookIcon style={{color:"#272eae"}}/><TwitterIcon style={{backgroundColor:"#1590d8",fontSize:"15px",borderRadius:"50%",padding:"4px"}}/><YouTubeIcon style={{backgroundColor:"#D0021B",fontSize:"15px",borderRadius:"50%",padding:"4px"}}/><PinterestIcon style={{color:"#f53e6a"}}/></div>
                     </div>
                     <div className={classes.rightSide}>Contact Us</div>
                 </div>

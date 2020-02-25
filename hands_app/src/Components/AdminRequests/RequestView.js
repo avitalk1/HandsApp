@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import Typography from "@material-ui/core/Typography";
 import { Link as RouterLink } from "react-router-dom";
 import { Button } from "@material-ui/core";
@@ -83,7 +83,6 @@ const useStyles = makeStyles({
 export default function RequestView(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [requestView, setRequestView] = useState();
   const handleClickOpen = () => {
     setOpen(true);
   };

@@ -2,9 +2,7 @@ import React from "react";
 import "../index.css";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Route } from "react-router-dom";
-import { Link as RouterLink } from "react-router-dom";
-import landingPageImg from "../images/landingPageImg.png"
+import { Route, Link as RouterLink} from "react-router-dom";
 import MobileLogo from "../images/MobileLogo.png"
 
 const useStyles = makeStyles({

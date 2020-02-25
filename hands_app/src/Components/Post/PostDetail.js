@@ -40,9 +40,7 @@ const PostDetail = props => {
   const classes = useStyles();
   const [detailStyle, setDetailStyle] = useState()
   const [contumeContentStyle, setContumeContentStyle] = useState();
-  const handleClick = () => {
-    props.onSelect(props.postId);
-  };
+
   const contentView = () => {
     const { content, title } = props;
     if (title === "Volunteers" && content) {

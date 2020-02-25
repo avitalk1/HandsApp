@@ -172,7 +172,6 @@ export default function RequestForm() {
   const [description, setDescription] = useState("");
   const [fileInput, setFileInput] = useState("");
   const [initial, setInitial] = useState(true);
-  const [success, setRequestSuccess] = useState(false);
   const [previewImg, setPreviewImg] = useState(["", "", "", ""]);
   const [files, setFiles] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -366,6 +365,7 @@ export default function RequestForm() {
               className={classes.imagePreview}
               src={previewImg[0]}
               style={inlineStyles[0].img}
+              alt="upload"
             />
             <input
               className={classes.fileInput}
@@ -390,6 +390,7 @@ export default function RequestForm() {
               className={classes.imagePreview}
               src={previewImg[1]}
               style={inlineStyles[1].img}
+              alt="upload"
             />
             <input
               className={classes.fileInput}
@@ -415,6 +416,7 @@ export default function RequestForm() {
               className={classes.imagePreview}
               src={previewImg[2]}
               style={inlineStyles[2].img}
+              alt="upload"
             />
             <input
               className={classes.fileInput}
@@ -439,6 +441,7 @@ export default function RequestForm() {
               className={classes.imagePreview}
               src={previewImg[3]}
               style={inlineStyles[3].img}
+              alt="upload"
             />
             <input
               className={classes.fileInput}

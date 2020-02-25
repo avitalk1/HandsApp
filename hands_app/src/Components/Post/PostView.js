@@ -148,14 +148,14 @@ const PostView = props => {
     } else {
       setIsMobile("postView");
     }
-  }, [])
+  },)
   useEffect(() => {
     if (props.selectedPostI === props.postIndex) {
       setSelectedStyle("selected");
     } else {
       setSelectedStyle("");
     }
-  }, [props.selectedPostI])
+  },)
   return (
     <div className={`${classes[isMobile]} ${classes[selectedStyle]} `}>
       <div className={classes.postViewTitle}>

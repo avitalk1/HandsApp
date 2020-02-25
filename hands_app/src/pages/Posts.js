@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-//import "./styles.css";
-import axios from "axios";
 import GridList from "@material-ui/core/GridList";
 import { makeStyles } from "@material-ui/core/styles";
 import PostView from "../Components/Post/PostView";
