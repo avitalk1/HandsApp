@@ -812,6 +812,7 @@ const appPosts = [
 
 
 const MobilePosts = (props) => {
+    props.onPageLoad(window.location.pathname);
     const classes = useStyles();
     const [posts, setPosts] = useState([]);
     const [selectedPost, setSelectedPost] = useState({});
