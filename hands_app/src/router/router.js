@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Route } from "react-router-dom";
 import LandingPage from "../pages/LandingPage";
 import MobileLandingPage from "../Mobile/MobileLandingPage";
@@ -11,10 +11,17 @@ import Map from '../Mobile/Map';
 import CreatePostPage from "../pages/CreatePostPage"
 import Request from "../pages/Request"
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Footer from '../Components/Footer';
 
 const ReactRouter = () => {
   const matches = useMediaQuery('(min-width:415px)');
-  
+  const [currentLocation, setCurrentLocation] = useState(window.location.pathname);
+  const [homePage, setHomePage] = useState(-1);
+
+  const setHomePageFunction = () =>{
+    setHomePage(homePage-1);
+  }
+
   if(matches===true){
     return (
       <React.Fragment>
@@ -24,16 +31,18 @@ const ReactRouter = () => {
         <Route path="/admin" render={(props) => <AdminInbox {...props}/>}/>
         <Route path="/createpost" render={(props) => <CreatePostPage {...props}/>}/>
         <Route path="/request" render={(props) => <Request {...props}/>}/>
+        <Footer location={window.location.pathname}/>
       </React.Fragment>
     );
   }
   else{
     return(
       <React.Fragment>
-        <Route exact path="/" component={MobileLandingPage} />
-        <Route path="/connection" render={(props) => <UserLogin {...props}/>} />
-        <Route path="/posts" render={(props) => <MobilePosts {...props}/>}/> 
+        <Route exact path="/" render={(props) => <MobileLandingPage {...props } onPageLoad={setCurrentLocation}/>} />
+        <Route path="/connection" render={(props) => <UserLogin {...props } onPageLoad={setCurrentLocation}/>} />
+        <Route path="/posts" render={(props) => <MobilePosts {...props} selectedIndex={homePage} />}/> 
         <Route path="/map" render={(props) => <Map {...props}/>}/>
+        <Footer location={currentLocation} onHomeClick={setHomePageFunction}/>
       </React.Fragment>
 
     );

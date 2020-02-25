@@ -18,10 +18,8 @@ ReactDOM.render(
     <Router>
         <img src={logo} className="logo" alt="logo" />
         <ReactRouter />
-        <Footer/>
     </Router>,
     document.getElementById('root')
-
 )
 //ReactDOM.render(<CreatePostPage />, document.getElementById('root'));
 

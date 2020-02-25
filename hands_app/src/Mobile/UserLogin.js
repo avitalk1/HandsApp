@@ -4,6 +4,9 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
     formWrapper: {
         width: "100%",
+        '& .mobileFooter': {
+            display: "none"
+        }
     },
     header: {
         background: "rgba(255, 255, 255, 0.14)",
@@ -33,23 +36,20 @@ const useStyles = makeStyles({
     },
 })
 const UserLogin = (props) => {
+    props.onPageLoad(window.location.pathname);
     const classes = useStyles();
-    const [connectionType, setConnectionType] = useState(props.location.state.connectionType)
-    const [formHeight, setFormHeight] = useState("")
 
     let content = (
         <div className={classes.formWrapper}>
-            <div className={classes.formWrapper}>
-                <div className={classes.root}> </div>
-                <div className={classes.topContainer}>
-                    <div className={classes.header}></div>
-                    <div className={classes.subject}><h1>Welcome!</h1></div>
-                    <div className={classes.haederBackground} />
-                    <div className={classes.formContainer}>
-                        <div>{
-                            <Login />
-                        }</div>
-                    </div>
+            <div className={classes.root}> </div>
+            <div className={classes.topContainer}>
+                <div className={classes.header}></div>
+                <div className={classes.subject}><h1>Welcome!</h1></div>
+                <div className={classes.haederBackground} />
+                <div className={classes.formContainer}>
+                    <div>{
+                        <Login />
+                    }</div>
                 </div>
             </div>
         </div>

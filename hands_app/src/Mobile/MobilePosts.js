@@ -3,6 +3,7 @@ import PostThumbnail from "../Components/Post/PostThumbnail";
 import GridList from "@material-ui/core/GridList";
 import PostView from "../Components/Post/PostView";
 import { makeStyles } from "@material-ui/core/styles";
+
 const useStyles = makeStyles({
     formWrapper: {
         width: "100%",
@@ -806,47 +807,6 @@ const appPosts = [
                 number_needed: 16
             }
         ]
-    },
-    {
-        selected_dates: {
-            from: "2020-02-03",
-            to: "2020-02-04"
-        },
-        _id: 19,
-        request: {
-            subject: "19th Request",
-            location: {
-                street: {
-                    name: "Bruria",
-                    number: 5
-                },
-                entrance: "B",
-                apt_number: 6,
-                city: "Ramat-Gan",
-                floor: 4
-            },
-            description: "First Request Description ..."
-        },
-        costum_description: {
-            changed: true,
-            description: "First Request Costume Description"
-        },
-        number_of_volunteers: {
-            joined: 0,
-            need: 5
-        },
-        professions: [
-            {
-                _id: "5e2f0a31627eff0017da3fef",
-                profession: "None",
-                number_needed: 4
-            },
-            {
-                _id: "5e2f0a31627eff0017da3fee",
-                profession: "Plumber",
-                number_needed: 16
-            }
-        ]
     }
 ];
 
@@ -860,6 +820,7 @@ const MobilePosts = (props) => {
 
     const maketSelectedPostFunction = index => {
         let makeSelectedPost = {};
+        window.history.pushState("", "", '/posts/post')
         makeSelectedPost.location = posts[index].request.location.city;
         makeSelectedPost.date = posts[index].selected_dates.from;
         makeSelectedPost.num_of_voulnteers = [
@@ -889,9 +850,12 @@ const MobilePosts = (props) => {
     useEffect(() => {
         setPosts(appPosts);
     }, []);
-    if (selectedPostIndex === -1) {
+    useEffect(()=>{
+        setSelectedPostIndex(props.selectedIndex)
+    },[props.selectedIndex])
+    if (selectedPostIndex < 0) {
         content = (
-            <div className={classes.formWrapper}>
+            <div className={classes.formWrapper} >
                 <div className={classes.root}> </div>
                 <div className={classes.topContainer}>
                     <div className={classes.header}></div>
@@ -915,6 +879,7 @@ const MobilePosts = (props) => {
             </div>
         )
     } else {
+        //window.history.back();
         content = (
             <div className={classes.formWrapper}>
                 <div className={classes.root}> </div>
