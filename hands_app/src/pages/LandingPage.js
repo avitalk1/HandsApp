@@ -66,8 +66,10 @@ const useStyles = makeStyles({
 
 });
 
-export default function LandingPage() {
+export default function LandingPage(props) {
+  props.onPageLoad(window.location.pathname);
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
       <RouterLink className={classes.loginLink} to={{

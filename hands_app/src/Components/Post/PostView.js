@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
@@ -46,7 +46,7 @@ const postDetails = [
     isArray: true
   }
 ];
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme=>({
   root: {
     width: 250,
     height: 150,
@@ -57,8 +57,36 @@ const useStyles = makeStyles({
     marginBottom: "40px",
     borderRadius: "20px",
     boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
+    [theme.breakpoints.between('sm', 'md')]: {
+      backgroundColor: 'red',
+    },
   },
-  centeredContainer:{
+  mobileRoot: {
+    width: "80%",
+    marginLeft: "10%",
+    '& .makeStyles-root-112':{
+      marginTop:"150px",
+      marginBottom:"10px",
+      width: 200,
+      height: 150,
+    },
+    '& .makeStyles-postViewTitle-120': {
+      marginTop:"50px",
+      justifyContent: "stretch",
+      color: "white",
+      position: "absolute"
+    },
+    '& .makeStyles-detailContainer-123':{
+      marginBottom: "2.5%"
+    },
+    '& .makeStyles-joinBtn-122': {
+      fontSize: "16px",
+      marginTop: "0px",
+      borderRadius: "15px"
+    }
+
+  },
+  centeredContainer: {
     display: "flex",
     justifyContent: "center",
   },
@@ -88,7 +116,7 @@ const useStyles = makeStyles({
     color: "#F4976C",
     marginTop: "5px",
     marginBottom: "5px",
-    position:"relative"
+    position: "relative"
   },
 
   postView: {
@@ -104,23 +132,39 @@ const useStyles = makeStyles({
     marginBottom: "50px",
     borderRadius: "15px"
   }
-});
+}));
 
 const PostView = props => {
   const classes = useStyles();
+  const [selectedStyle, setSelectedStyle] = useState();
+  const [isMobile, setIsMobile] = useState();
 
   const handleClick = () => {
-    //console.log(props.postContent);
   };
+
+  useEffect(() => {
+    if (props.isMobile) {
+      setIsMobile("mobileRoot");
+    } else {
+      setIsMobile("postView");
+    }
+  }, [])
+  useEffect(() => {
+    if (props.selectedPostI === props.postIndex) {
+      setSelectedStyle("selected");
+    } else {
+      setSelectedStyle("");
+    }
+  }, [props.selectedPostI])
   return (
-    <div className={classes.postView}>
+    <div className={`${classes[isMobile]} ${classes[selectedStyle]} `}>
       <div className={classes.postViewTitle}>
         <Typography style={{ fontSize: "2.25em" }}>
           {props.postContent.title}
         </Typography>
       </div>
       <div className={classes.centeredContainer}>
-      <Card className={classes.root} onClick={handleClick} />
+        <Card className={classes.root} onClick={handleClick} />
       </div>
       <div className={classes.postDetailsContainer}>
         {postDetails.map(detail => {
@@ -136,8 +180,8 @@ const PostView = props => {
         })}
       </div>
       <div className={classes.centeredContainer}>
-      <Button className={classes.joinBtn} variant="contained">
-        JOIN
+        <Button className={classes.joinBtn} variant="contained">
+          JOIN
       </Button>
       </div>
     </div>
