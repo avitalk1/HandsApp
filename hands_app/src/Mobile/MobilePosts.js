@@ -43,12 +43,6 @@ const useStyles = makeStyles({
         justifyContent: "space-around",
         position: "absolute",
         bottom: "2%",
-        '& .makeStyles-mobileRoot-32': {
-            width: 120,
-            height: 100,
-            marginRight: "5px",
-            marginLeft: "5px"
-        }
     },
     card: {
         width: "40%"

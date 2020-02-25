@@ -23,7 +23,7 @@ const ReactRouter = () => {
         <Route path="/posts" render={(props) => <Posts {...props}/>}/>
         <Route path="/admin" render={(props) => <AdminInbox {...props}/>}/>
         <Route path="/createpost" render={(props) => <CreatePostPage {...props}/>}/>
-        <Route path="/request" render={(props) => <Map {...props}/>}/>
+        <Route path="/request" render={(props) => <Request {...props}/>}/>
       </React.Fragment>
     );
   }

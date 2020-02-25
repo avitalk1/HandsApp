@@ -46,7 +46,7 @@ const postDetails = [
     isArray: true
   }
 ];
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme=>({
   root: {
     width: 250,
     height: 150,
@@ -57,6 +57,9 @@ const useStyles = makeStyles({
     marginBottom: "40px",
     borderRadius: "20px",
     boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
+    [theme.breakpoints.between('sm', 'md')]: {
+      backgroundColor: 'red',
+    },
   },
   mobileRoot: {
     width: "80%",
@@ -129,7 +132,7 @@ const useStyles = makeStyles({
     marginBottom: "50px",
     borderRadius: "15px"
   }
-});
+}));
 
 const PostView = props => {
   const classes = useStyles();

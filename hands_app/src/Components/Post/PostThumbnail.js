@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     marginRight: "50px"
   },
   mobileRoot:{
-    width: "100px",
+    width: "120px",
     height: "100px",
     backgroundImage:
       "url('https://www.imagesjunction.com/images/img/rose_images.jpg')",
@@ -26,8 +26,8 @@ const useStyles = makeStyles({
     backgroundSize: "cover",
     marginBottom: "4%",
     borderRadius: "20px",
-    marginRight:"10px",
-    marginLeft:"10px",
+    marginRight:"5px",
+    marginLeft:"5px",
   },
   cardContent: {
     display: "flex",
