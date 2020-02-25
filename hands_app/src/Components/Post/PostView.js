@@ -57,41 +57,23 @@ const useStyles = makeStyles(theme=>({
     marginBottom: "40px",
     borderRadius: "20px",
     boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
-    [theme.breakpoints.between('sm', 'md')]: {
-      backgroundColor: 'red',
-    },
+    '@media (max-width: 415px)':{
+      marginTop:"150px",
+      marginBottom:"10px",
+      width: 200,
+      height: 120,
+    }
   },
   mobileRoot: {
     width: "80%",
     marginLeft: "10%",
-    '& .makeStyles-root-112':{
-      marginTop:"150px",
-      marginBottom:"10px",
-      width: 200,
-      height: 150,
-    },
-    '& .makeStyles-postViewTitle-120': {
-      marginTop:"50px",
-      justifyContent: "stretch",
-      color: "white",
-      position: "absolute"
-    },
-    '& .makeStyles-detailContainer-123':{
-      marginBottom: "2.5%"
-    },
-    '& .makeStyles-joinBtn-122': {
-      fontSize: "16px",
-      marginTop: "0px",
-      borderRadius: "15px"
-    }
-
   },
   centeredContainer: {
     display: "flex",
     justifyContent: "center",
   },
   detailContainer: {
-    display: "flex"
+    display: "flex",
   },
   detailHeadingContainer: {
     display: "flex",
@@ -116,11 +98,19 @@ const useStyles = makeStyles(theme=>({
     color: "#F4976C",
     marginTop: "5px",
     marginBottom: "5px",
-    position: "relative"
+    position: "relative",
+    '@media (max-width: 415px)':{
+      marginTop:"40px",
+      justifyContent: "stretch",
+      color: "white",
+      position: "absolute"
+    }
   },
-
   postView: {
     width: "80%",
+    '@media (max-width: 415px)':{
+      width: "100%",
+    }
   },
   joinBtn: {
     width: "65%",
@@ -130,9 +120,16 @@ const useStyles = makeStyles(theme=>({
     fontSize: "36px",
     marginTop: "60px",
     marginBottom: "50px",
-    borderRadius: "15px"
+    borderRadius: "15px",
+    '@media (max-width: 415px)':{
+      fontSize: "16px",
+      margin: "0px",
+      borderRadius: "15px"
+    }
   }
+ 
 }));
+
 
 const PostView = props => {
   const classes = useStyles();

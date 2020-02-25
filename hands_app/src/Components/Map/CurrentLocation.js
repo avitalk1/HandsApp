@@ -6,6 +6,9 @@ const mapStyles = {
     position: 'absolute',
     width: '100%',
     height: '100%'
+  },
+  '& .gm-svpc':{
+    display:"none",
   }
 };
 

@@ -8,25 +8,20 @@ const useStyles = makeStyles({
     formWrapper: {
         width: "100%",
     },
-    header: {
-        background: "rgba(255, 255, 255, 0.14)",
-        width: "100%",
-        height: "46px"
-    },
     root: {
         position: "fixed",
         height: "100vh",
         marginTop: 0,
         width: "100%",
         clipPath: "ellipse(90% 20% at 40% 0%)",
-        background: "linear-gradient(44.78deg, #07889B -14.33%, #66B9BF 60.38%, #FF9AF5 160.11%)",
+        background: "linear-gradient(44.78deg, #07889B -14.33%, #66B9BF 60.38%, #FF9AF5 180.11%)",
     },
     subject: {
         color: "white",
         marginLeft: "35px",
         position: "relative",
         fontSize: "24px",
-        marginTop: "10%",
+        marginTop: "35%",
         zIndex: 100,
     },
     formContainer: {
@@ -859,7 +854,6 @@ const MobilePosts = (props) => {
             <div className={classes.formWrapper} >
                 <div className={classes.root}> </div>
                 <div className={classes.topContainer}>
-                    <div className={classes.header}></div>
                     <div className={classes.subject}><h1>Posts</h1></div>
                 </div>
                     <div className={classes.gridContainer}>
@@ -880,7 +874,6 @@ const MobilePosts = (props) => {
             </div>
         )
     } else {
-        //window.history.back();
         content = (
             <div className={classes.formWrapper}>
                 <div className={classes.root}> </div>
