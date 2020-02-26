@@ -136,7 +136,7 @@ export default function CreatePostForm(props) {
       to:new Date()
     },
     professions:[],
-
+    cover_photo: 0,
   })
   const materialTheme = createMuiTheme({
     overrides: {
@@ -159,9 +159,9 @@ export default function CreatePostForm(props) {
         number_needed: Math.round(post.number_of_volunteers.need/professionsNeeded.length)
       })
     })
+    changedPost.cover_photo = props.coverPhoto;
     setPost(changedPost);
     try{
-      console.log(post);
       const result = await axios.post("https://hands-app.herokuapp.com/post/addPost", post);
       console.log(result)
       setPosted(true);

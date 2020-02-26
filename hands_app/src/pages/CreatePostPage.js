@@ -52,18 +52,23 @@ const useStyles = makeStyles({
 })
 export default function CreatePostPage(props) {
     const [request, setRequest] = useState(props.location.state.request);
+    const [selectedPhoto, setSelectedPhoto] = useState(0);
     const classes = useStyles();
+
+    const handlePhotoSelect = (index) => {
+        setSelectedPhoto(index)
+    }
     return (
         <div>
             <div className={classes.formWrapper}>
                 <div className={classes.bgContainer}>
                     <div className={classes.leftColumn}>
                         <h1 className={` ${classes.welcome} ${classes.welcomeHeading} `}>Write a Post</h1>
-                        <PostPhotos/>
+                        <PostPhotos onPhotoSelect={handlePhotoSelect} images={request.images}/>
                     </div>
                     <div className={classes.rightColumn}></div>
                 </div>
-                <div  className={classes.formContainer}><CreatePostForm requestDetails={request}  userId={props.location.state.userId}/></div>
+                <div  className={classes.formContainer}><CreatePostForm requestDetails={request}  userId={props.location.state.userId} coverPhoto={selectedPhoto}/></div>
             </div>
         </div>
     );

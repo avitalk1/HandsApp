@@ -27,13 +27,12 @@ const useStyles = makeStyles({
         borderRadius: "15px"
       },
       '&:hover fieldset': {
-        borderColor: '#F4976C',
+         borderColor: '#F4976C',
 
       },
       '&.Mui-focused fieldset': {
         borderColor: '#F4976C',
-
-      },
+      }, 
     },
   },
 

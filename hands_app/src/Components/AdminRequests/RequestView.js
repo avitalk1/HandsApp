@@ -105,16 +105,6 @@ export default function RequestView(props) {
     }
     setOpen(false);
   };
-  const constructLocationView = () => {
-    return (
-      <Typography>
-        {`${props.request.location.city}, ${
-          props.request.location.street.name
-        } ${props.request.location.street.number} `}
-      </Typography>
-    );
-  };
-
   if (props.request && !deleted) {
     return (
       <div className={classes.root}>
@@ -166,7 +156,7 @@ export default function RequestView(props) {
           <div className={classes.detailsContainer}>
             <div className={classes.gridContainer}>
               <Typography>Location:</Typography>
-              <div>{constructLocationView()}</div>
+              <Typography>{props.request.location}</Typography>
             </div>
             <div className={classes.gridContainer}>
               <Typography>Dates:</Typography>
@@ -180,10 +170,9 @@ export default function RequestView(props) {
           <div
             className={`${classes.imagesContainer} ${classes.flexContainer}`}
           >
-            <div className={classes.image} />
-            <div className={classes.image} />
-            <div className={classes.image} />
-            <div className={classes.image} />
+            {props.request.images.map(image => {
+              return <img className={classes.image} src={`${image}`} alt={"img"}/>
+            })}
           </div>
           <div className={classes.btnContainer}>
             <Button className={classes.acceptBtn} variant="contained" component={RouterLink}

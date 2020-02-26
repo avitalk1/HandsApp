@@ -10,8 +10,6 @@ const useStyles = makeStyles({
   root: {
     width: 250,
     height: 150,
-    backgroundImage:
-      "url('https://www.imagesjunction.com/images/img/rose_images.jpg')",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     marginBottom: "4%",
@@ -35,6 +33,7 @@ const useStyles = makeStyles({
 });
 
 const PostThumbnail = props => {
+  console.log(props)
   const classes = useStyles();
   const [seletedStyle, setSelectedStyle] =useState()
   const handleClick = () => {
@@ -48,7 +47,7 @@ const PostThumbnail = props => {
     }
   },[props.selectedPostI])
   return (
-    <Card className={`${classes.root} ${classes[seletedStyle]} `} onClick={handleClick}>
+    <Card  style={{backgroundImage:`url('${props.image}')`}} className={`${classes.root} ${classes[seletedStyle]} `} onClick={handleClick}>
       <CardActionArea>
         <CardContent className={classes.cardContent}>
           <Typography gutterBottom>{props.title}</Typography>

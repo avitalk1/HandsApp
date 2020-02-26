@@ -892,7 +892,8 @@ export default function Posts(props) {
       makeSelectedPost.professions[index] = pro.profession;
     });
     makeSelectedPost.title = posts[index].request.subject;
-    makeSelectedPost.id = posts[index]._id
+    makeSelectedPost.id = posts[index]._id;
+    makeSelectedPost.image = posts[index].request.images[posts[index].cover_photo];
     setSelectedPost(makeSelectedPost);
   };
   const handlePostSelect = value => {
@@ -914,6 +915,7 @@ export default function Posts(props) {
                 title={post.request.subject}
                 date={post.selected_dates.from}
                 selectedPostI={selectedPostIndex}
+                image={post.request.images[post.cover_photo]}
               />
             );
           })}

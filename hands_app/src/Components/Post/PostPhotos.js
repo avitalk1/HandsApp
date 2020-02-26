@@ -29,7 +29,8 @@ const useStyles = makeStyles({
   }
 });
 
-export default function PostPhotos() {
+export default function PostPhotos(props) {
+  console.log(props)
   const classes = useStyles();
   const [selectPhoto, setSelectPhoto] = useState(["", "", "", ""]);
   const handleSelect = index => {
@@ -37,28 +38,16 @@ export default function PostPhotos() {
     let newSelectPhoto = ["", "", "", ""];
     newSelectPhoto[index] = "selectPhoto";
     setSelectPhoto(newSelectPhoto);
+    props.onPhotoSelect(index);
   };
   return (
     <div className={classes.root}>
       <div className={classes.title}>Choose a Cover Photo for the post:</div>
       <div className={classes.imagesContainer}>
-        <div
-          onClick={() => handleSelect(0)}
-          className={`${classes.image} ${classes[selectPhoto[0]]}`}
-        />
-        <div
-          onClick={() => handleSelect(1)}
-          className={`${classes.image} ${classes[selectPhoto[1]]}`}
-        />
-        <div
-          onClick={() => handleSelect(2)}
-          className={`${classes.image} ${classes[selectPhoto[2]]}`}
-        />
-        <div
-          onClick={() => handleSelect(3)}
-          className={`${classes.image} ${classes[selectPhoto[3]]}`}
-        />
+        {props.images.map((image, index) => {
+          return <img onClick={() => handleSelect(index)}  className={`${classes.image} ${classes[selectPhoto[index]]}`} src={`${image}`} alt={"img"}/>
+        })}
+       </div>
       </div>
-    </div>
   );
 }

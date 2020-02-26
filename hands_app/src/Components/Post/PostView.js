@@ -8,6 +8,7 @@ import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import DescriptionIcon from "@material-ui/icons/Description";
 import SentimentSatisfiedOutlinedIcon from "@material-ui/icons/SentimentSatisfiedOutlined";
 import BuildOutlinedIcon from "@material-ui/icons/BuildOutlined";
+
 import PostDetail from "./PostDetail";
 import axios from "axios";
 const postDetails = [
@@ -51,8 +52,6 @@ const useStyles = makeStyles({
   root: {
     width: 250,
     height: 150,
-    backgroundImage:
-      "url('https://www.imagesjunction.com/images/img/rose_images.jpg')",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     marginBottom: "40px",
@@ -134,7 +133,7 @@ const PostView = props => {
         </Typography>
       </div>
       <div className={classes.centeredContainer}>
-      <Card className={classes.root} onClick={handleClick} />
+      <Card style={{backgroundImage:`url('${props.postContent.image}')`}} className={classes.root} onClick={handleClick} />
       </div>
       <div className={classes.postDetailsContainer}>
         {postDetails.map(detail => {
