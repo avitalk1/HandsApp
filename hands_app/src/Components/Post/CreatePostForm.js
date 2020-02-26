@@ -9,10 +9,13 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Chip from "@material-ui/core/Chip";
+import { Redirect } from "react-router";
+import axios from "axios";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from "@material-ui/pickers";
+import moment from "moment";
 
 const useStyles = makeStyles({
   title: {
@@ -117,7 +120,24 @@ export default function CreatePostForm(props) {
   const classes = useStyles();
   const [professionsNeeded, setProfessionsNeeded] = useState([]);
   const [request, setRequest] = useState(props.requestDetails);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [posted, setPosted] = useState(false)
+  const [post, setPost] = useState({
+    admin:props.userId,
+    request:request._id,
+    number_of_volunteers:{
+      need:0
+    },
+    costume_description:{
+      changed:false,
+      description:""
+    },
+    selected_dates:{
+      from: new Date(),
+      to:new Date()
+    },
+    professions:[],
+    cover_photo: 0,
+  })
   const materialTheme = createMuiTheme({
     overrides: {
       MuiPickersDay: {
@@ -127,111 +147,164 @@ export default function CreatePostForm(props) {
       }
     }
   });
-  const handleDateChange = date => {
-    setSelectedDate(date);
-  };
-  ;
-
-  const handleChange = event => {
+  const handleProfessionsChange = event => {
     setProfessionsNeeded(event.target.value);
-  };
 
-  return (
-    <div style={{width:"80%"}}>
-      <form>
-        <div className={classes.largeInputConteiner}>
-          <TextField
-            className={classes.inputStyle}
-            placeholder={request.subject}
-            variant="outlined"
-          />
-        </div>
-        <div className={classes.largeInputConteiner}>
-          <div className={classes.title}>Description</div>
-          <TextField 
-          multiline
-          rows={4}
-            className={`${classes.inputStyle} ${classes.descriptionInput}`}
-            placeholder={request.description}
-            variant="outlined"
-          />
-        </div>
-        <div className={classes.thirdLine}>
-          <div className={classes.smallInputConteiner}>
-            <div className={classes.title}>Date</div>
-            <div className={classes.inputStyle}>
-              <ThemeProvider theme={materialTheme}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    style={{ width: "100%" }}
-                    inputVariant="outlined"
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                      "aria-label": "change date"
-                    }}
-                  />
-                </MuiPickersUtilsProvider>
-              </ThemeProvider>
+  };
+  const handleOnClick = async () =>{
+    let changedPost = post;
+    professionsNeeded.map((pro) => {
+      changedPost.professions.push({
+        profession:pro,
+        number_needed: Math.round(post.number_of_volunteers.need/professionsNeeded.length)
+      })
+    })
+    changedPost.cover_photo = props.coverPhoto;
+    setPost(changedPost);
+    try{
+      const result = await axios.post("https://hands-app.herokuapp.com/post/addPost", post);
+      console.log(result)
+      setPosted(true);
+    }catch(err){
+      console.log(err)
+    }
+
+  }
+  const handleOnDateChange = (value) =>{
+    let changedPost = post;
+    changedPost["selected_dates"].from =`${moment(value).format("MM/DD/YYYY")}`;
+    changedPost["selected_dates"].to = `${moment(value).format("MM/DD/YYYY")}`;
+    setPost(changedPost);
+  }
+  const handleOnChange = (e) => {
+    let changedPost = post;
+    if(e.target.name === "number_of_volunteers"){
+      changedPost[e.target.name].need = e.target.value
+    } else if (  e.target.name === "costume_description"){
+      changedPost[e.target.name].changed = true;
+      changedPost[e.target.name].description = e.target.value;
+    }
+    setPost(changedPost);
+  }
+  if(!posted){
+    return (
+      <div style={{width:"80%"}}>
+        <form>
+          <div className={classes.largeInputConteiner}>
+            <TextField
+              className={classes.inputStyle}
+              placeholder={request.subject}
+              variant="outlined"
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+          <div className={classes.largeInputConteiner}>
+            <div className={classes.title}>Description</div>
+            <TextField 
+                multiline
+                rows={4}
+              className={`${classes.inputStyle} ${classes.descriptionInput}`}
+              placeholder={request.description}
+              variant="outlined"
+              name="costume_description"
+              onChange={handleOnChange}
+            />
+          </div>
+          <div className={classes.thirdLine}>
+            <div className={classes.smallInputConteiner}>
+              <div className={classes.title}>Date</div>
+              <div className={classes.inputStyle}>
+                <ThemeProvider theme={materialTheme}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      style={{ width: "100%" }}
+                      inputVariant="outlined"
+                      disableToolbar
+                      variant="inline"
+                      format="MM/dd/yyyy"
+                      margin="normal"
+                      id="date-picker-inline"
+                      value={post.selected_dates.from}
+                      onChange={handleOnDateChange}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date"
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+                </ThemeProvider>
+              </div>
+            </div>
+            <div className={classes.smallInputConteiner}>
+              <div className={classes.title}>Professionals Needed</div>
+              <div className={classes.inputStyle}>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <Select
+                    className={classes.selecter}
+                    labelId="demo-mutiple-chip-label"
+                    id="demo-mutiple-chip"
+                    multiple
+                    value={professionsNeeded}
+                    onChange={handleProfessionsChange}
+                    renderValue={selected => (
+                      <div className={classes.chips}>
+                        {selected.map(value => (
+                          <Chip
+                            key={value}
+                            label={value}
+                            className={classes.chip}
+                          />
+                        ))}
+                      </div>
+                    )}
+                    MenuProps={MenuProps}
+                  >
+                    {professions.map(name => (
+                      <MenuItem
+                        key={name}
+                        value={name}
+                        style={getStyles(name, professionsNeeded, theme)}
+                      >
+                        {name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
             </div>
           </div>
-          <div className={classes.smallInputConteiner}>
-            <div className={classes.title}>Professionals Needed</div>
-            <div className={classes.inputStyle}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <Select
-                  className={classes.selecter}
-                  labelId="demo-mutiple-chip-label"
-                  id="demo-mutiple-chip"
-                  multiple
-                  value={professionsNeeded}
-                  onChange={handleChange}
-                  renderValue={selected => (
-                    <div className={classes.chips}>
-                      {selected.map(value => (
-                        <Chip
-                          key={value}
-                          label={value}
-                          className={classes.chip}
-                        />
-                      ))}
-                    </div>
-                  )}
-                  MenuProps={MenuProps}
-                >
-                  {professions.map(name => (
-                    <MenuItem
-                      key={name}
-                      value={name}
-                      style={getStyles(name, professionsNeeded, theme)}
-                    >
-                      {name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
+          <div className={classes.inputConteiner}>
+            <div className={classes.title}>Number Of Volunteers</div>
+            <TextField
+              className={classes.inputStyle}
+              id="outlined-search"
+              type="number"
+              variant="outlined"
+              name="number_of_volunteers"
+              onChange={handleOnChange}
+            />
           </div>
-        </div>
-        <div className={classes.inputConteiner}>
-          <div className={classes.title}>Number Of Volunteers</div>
-          <TextField
-            className={classes.inputStyle}
-            id="outlined-search"
-            type="number"
-            variant="outlined"
-          />
-        </div>
-        <button className={classes.postBtn}>
-          <CheckIcon />
-          Post
-        </button>
-      </form>
-    </div>
-  );
+        </form>
+        <button  onClick={handleOnClick} className={classes.postBtn}>
+            <CheckIcon />
+            Post
+          </button>
+      </div>
+    )
+  }else{
+      return (
+        <Redirect
+          to={{
+            pathname: "/admin",
+            state: {
+              userId: props.userId,
+              rerander:true
+            }
+          }}
+        />
+      )
+  }
+  
+
 }

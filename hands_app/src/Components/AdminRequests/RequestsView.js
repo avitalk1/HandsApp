@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import RequestThumbnail from "./RequestThumbnail";
+
 const useStyles = makeStyles(theme => ({
   root: {
     height: "100%",
@@ -9,7 +10,8 @@ const useStyles = makeStyles(theme => ({
   },
   inline: {
     display: "inline"
-  }
+  },
+  
 }));
 
 export default function RequestView(props) {
@@ -25,6 +27,7 @@ export default function RequestView(props) {
         <RequestThumbnail
           key={index}
           index={index}
+          requester={req.requester.name}
           subject={req.subject}
           description={req.description}
           date={req.created_date}

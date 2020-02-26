@@ -27,13 +27,12 @@ const useStyles = makeStyles({
         borderRadius: "15px"
       },
       '&:hover fieldset': {
-        borderColor: '#F4976C',
+         borderColor: '#F4976C',
 
       },
       '&.Mui-focused fieldset': {
         borderColor: '#F4976C',
-
-      },
+      }, 
     },
   },
 
@@ -123,7 +122,8 @@ const Login = () => {
       <Redirect
         to={{
           pathname: "/admin",
-          state: { userId: loggedInUser._id }
+          state: { userId: loggedInUser._id },
+          rerender:false
         }}
       />
       );

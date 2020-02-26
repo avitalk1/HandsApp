@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import moment from "moment";
+
 const useStyles = makeStyles({
   detailContainer: {
     display: "flex",
@@ -62,7 +64,9 @@ const PostDetail = props => {
           })}
         </div>
       );
-    }else {
+    }else if(title==="Date"){
+       return <Typography className={`${classes.detailContent} ${classes[contumeContentStyle]}`}>{moment(content).format("MM/DD/YYYY")}</Typography>
+    }else{
       return (
         <Typography className={`${classes.detailContent} ${classes[contumeContentStyle]}`}>{content}</Typography>
       );

@@ -11,7 +11,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DeleteIcon from "@material-ui/icons/Delete";
 import moment from "moment";
-
+import axios from "axios"
 const useStyles = makeStyles({
   root: {
     height: "100%",
@@ -83,28 +83,33 @@ const useStyles = makeStyles({
 export default function RequestView(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [requestView, setRequestView] = useState();
+  const [deleted, setDeleted] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
-
-  const handleClose = () => {
+  const handleDelete = async () => {
+    const user = {requestId: props.request._id}
+    try{
+      const result = await fetch(`https://hands-app.herokuapp.com/request/rejectRequest/${props.request._id}`, {
+        method: 'DELETE'
+      })
+      setDeleted(true);
+    }catch(err){
+        console.log(err);
+    }
+  }
+  const handleClose = (flag) => {
+    if(flag){
+      handleDelete();
+    }
     setOpen(false);
   };
-  const constructLocationView = () => {
-    return (
-      <Typography>
-        {`${props.request.location.city}, ${
-          props.request.location.street.name
-        } ${props.request.location.street.number} `}
-      </Typography>
-    );
-  };
-
-  if (props.request) {
+  if (props.request && !deleted) {
     return (
       <div className={classes.root}>
         <div className={`${classes.topContainer} ${classes.flexContainer}`}>
-          <Avatar className={classes.avatar}>R</Avatar>
+          <Avatar className={classes.avatar}>{props.request.requester.name.first[0]}</Avatar>
           <Typography className={classes.costumeTextColor}>
             {moment(props.request.created_date).format("MM/DD/YYYY")}
           </Typography>
@@ -135,10 +140,10 @@ export default function RequestView(props) {
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleClose} color="primary">
+                  <Button onClick={()=>handleClose(false)} color="primary">
                     Disagree
                   </Button>
-                  <Button onClick={handleClose} color="primary" autoFocus>
+                  <Button onClick={()=>handleClose(true)} color="primary" autoFocus>
                     Agree
                   </Button>
                 </DialogActions>
@@ -151,7 +156,7 @@ export default function RequestView(props) {
           <div className={classes.detailsContainer}>
             <div className={classes.gridContainer}>
               <Typography>Location:</Typography>
-              <div>{constructLocationView()}</div>
+              <Typography>{props.request.location}</Typography>
             </div>
             <div className={classes.gridContainer}>
               <Typography>Dates:</Typography>
@@ -165,16 +170,15 @@ export default function RequestView(props) {
           <div
             className={`${classes.imagesContainer} ${classes.flexContainer}`}
           >
-            <div className={classes.image} />
-            <div className={classes.image} />
-            <div className={classes.image} />
-            <div className={classes.image} />
+            {props.request.images.map(image => {
+              return <img className={classes.image} src={`${image}`} alt={"img"}/>
+            })}
           </div>
           <div className={classes.btnContainer}>
             <Button className={classes.acceptBtn} variant="contained" component={RouterLink}
             to={{
               pathname: "/createpost",
-              state: { request: props.request }
+              state: { request: props.request, userId: props.userId }
             }}>
               Accept and Write a Post
             </Button>

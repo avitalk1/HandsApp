@@ -8,7 +8,9 @@ import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import DescriptionIcon from "@material-ui/icons/Description";
 import SentimentSatisfiedOutlinedIcon from "@material-ui/icons/SentimentSatisfiedOutlined";
 import BuildOutlinedIcon from "@material-ui/icons/BuildOutlined";
+
 import PostDetail from "./PostDetail";
+import axios from "axios";
 const postDetails = [
   {
     icon: LocationOnIcon,
@@ -50,8 +52,6 @@ const useStyles = makeStyles(theme=>({
   root: {
     width: 250,
     height: 150,
-    backgroundImage:
-      "url('https://www.imagesjunction.com/images/img/rose_images.jpg')",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     marginBottom: "40px",
@@ -131,12 +131,27 @@ const useStyles = makeStyles(theme=>({
 }));
 
 
+
 const PostView = props => {
   const classes = useStyles();
   const [selectedStyle, setSelectedStyle] = useState();
   const [isMobile, setIsMobile] = useState();
 
+  const putData = async () => {
+    console.log(props.userId)
+    let user = { volunteersId: props.userId}
+   
+
+    try{
+      const result = await axios.put(`https://hands-app.herokuapp.com/post/${props.postContent.id}/joinEvent`, user)
+      console.log(result);
+    }catch(err){
+      console.log(err)
+    }
+  }
   const handleClick = () => {
+
+    putData()
   };
 
   useEffect(() => {
@@ -156,12 +171,12 @@ const PostView = props => {
   return (
     <div className={`${classes[isMobile]} ${classes[selectedStyle]} `}>
       <div className={classes.postViewTitle}>
-        <Typography style={{ fontSize: "2.25em" }}>
+        <Typography style={{ fontSize: "1.5em", fontWeight:"bold" }}>
           {props.postContent.title}
         </Typography>
       </div>
       <div className={classes.centeredContainer}>
-        <Card className={classes.root} onClick={handleClick} />
+      <Card style={{backgroundImage:`url('${props.postContent.image}')`}} className={classes.root} onClick={handleClick} />
       </div>
       <div className={classes.postDetailsContainer}>
         {postDetails.map(detail => {
@@ -177,8 +192,8 @@ const PostView = props => {
         })}
       </div>
       <div className={classes.centeredContainer}>
-        <Button className={classes.joinBtn} variant="contained">
-          JOIN
+      <Button onClick={handleClick} className={classes.joinBtn} variant="contained">
+        JOIN
       </Button>
       </div>
     </div>
