@@ -6,11 +6,14 @@ import { Route, Link as RouterLink} from "react-router-dom";
 import MobileLogo from "../images/MobileLogo.png"
 
 const useStyles = makeStyles({
+  '& .logo':{
+    display:"none"
+  },
   root: {
     minWidth: "100%",
     minHeight: "100vh",
     background: "linear-gradient(60.98deg, #07889B -20.33%, #66B9BF 65.38%, #FF9AF5 150.11%)",
-    position: "relative"
+    position: "relative",
   },
   container: {
     display: "flex",

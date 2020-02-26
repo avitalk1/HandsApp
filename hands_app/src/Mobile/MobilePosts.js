@@ -5,9 +5,6 @@ import PostView from "../Components/Post/PostView";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
-    formWrapper: {
-        width: "100%",
-    },
     root: {
         position: "fixed",
         height: "100vh",
@@ -19,33 +16,20 @@ const useStyles = makeStyles({
     subject: {
         color: "white",
         marginLeft: "35px",
-        position: "relative",
+        position: "absolute",
         fontSize: "24px",
-        marginTop: "35%",
-        zIndex: 100,
-    },
-    formContainer: {
-        width: "100%",
-        marginTop: "10%",
-    },
-    gridContainer: {
-        height: "100%",
-        display: "flex",
-        flexWrap: "wrap",
-        width: "100%",
+        marginTop: "5%",
     },
     gridList: {
-        height: 550,
+        height: 570,
         justifyContent: "space-around",
         position: "absolute",
         bottom: "2%",
+        
     },
     card: {
         width: "40%"
-    },
-    topContainer: {
-        position: "fixed",
-    },
+    }
 })
 
 const appPosts = [
@@ -846,42 +830,36 @@ const MobilePosts = (props) => {
     useEffect(() => {
         setPosts(appPosts);
     }, []);
-    useEffect(()=>{
+    useEffect(() => {
         setSelectedPostIndex(props.selectedIndex)
-    },[props.selectedIndex])
+    }, [props.selectedIndex])
+
     if (selectedPostIndex < 0) {
         content = (
-            <div className={classes.formWrapper} >
+            <div >
                 <div className={classes.root}> </div>
-                <div className={classes.topContainer}>
-                    <div className={classes.subject}><h1>Posts</h1></div>
-                </div>
-                    <div className={classes.gridContainer}>
-                        <GridList cellHeight={180} className={classes.gridList}>
-                            {posts.map((post, index) => {
-                                return (
-                                    <PostThumbnail
-                                        className={classes.card}
-                                        onSelect={handlePostSelect}
-                                        postIndex={index}
-                                        selectedPostI={selectedPostIndex}
-                                        isMobile={true}
-                                    />
-                                );
-                            })}
-                        </GridList>
-                </div>
+                <div className={classes.subject}><h1>Posts</h1></div>
+                <GridList cellHeight={180} className={classes.gridList}>
+                    {posts.map((post, index) => {
+                        return (
+                            <PostThumbnail
+                                className={classes.card}
+                                onSelect={handlePostSelect}
+                                postIndex={index}
+                                selectedPostI={selectedPostIndex}
+                                isMobile={true}
+                            />
+                        );
+                    })}
+                </GridList>
             </div>
         )
     } else {
         content = (
-            <div className={classes.formWrapper}>
+            <div>
                 <div className={classes.root}> </div>
-                <div className={classes.topContainer}>
-                    <div className={classes.header}></div>
-                </div>
                 <div className={classes.postContainer}>
-                 <PostView key={selectedPost._id} postContent={selectedPost} isMobile={true}/>
+                    <PostView key={selectedPost._id} postContent={selectedPost} isMobile={true} />
                 </div>
 
             </div>
