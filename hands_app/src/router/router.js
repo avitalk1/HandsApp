@@ -1,5 +1,5 @@
 
-import React, {useStae, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import { Route } from "react-router-dom";
 import LandingPage from "../pages/LandingPage";
 import MobileLandingPage from "../Mobile/MobileLandingPage";
