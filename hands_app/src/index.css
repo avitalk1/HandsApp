@@ -12,14 +12,16 @@ code {
     monospace;
 } */
 
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap');
+
 
 body,
 html {
   margin: 0;
   padding: 0;
+  font-family: 'Roboto Condensed';
 }
 .LandingPage {
-  font-family: sans-serif;
   text-align: center;
 }
 .logo{
@@ -27,5 +29,17 @@ html {
   width: 10%;
   z-index: 10;
   top: -20px;
- 
+}
+.gm-svpc,.gmnoprint, .gm-control-active{
+  display:none;
+}
+@media (max-width: 415px){
+ .logo{
+  position: absolute;
+  width: 25%;
+  z-index: 10;
+  margin:10px;
+  background-blend-mode: saturation;
+  mix-blend-mode: saturation;
+ }
 }

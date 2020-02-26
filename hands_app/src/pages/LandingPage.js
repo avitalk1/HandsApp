@@ -35,7 +35,9 @@ const useStyles = makeStyles({
   second_par: {
     margin: 0,
     fontSize: 24,
-    maxWidth: "70%"
+    maxWidth: "70%",
+    marginTop:"5%",
+    marginBottom:"5%"
   },
   button: {
     width: 250,
@@ -60,14 +62,16 @@ const useStyles = makeStyles({
   },
   landingPageImg:{
     mixBlendMode:"multiply",
-    width:"40%"
-
+    width:"40%",
+    marginTop:"5%"
   }
 
 });
 
-export default function LandingPage() {
+export default function LandingPage(props) {
+ 
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
       <RouterLink className={classes.loginLink} to={{
@@ -107,7 +111,7 @@ export default function LandingPage() {
         </div>
       </div>
       
-      <img src={landingPageImg} className={classes.landingPageImg} alt="landing-page-image" />
+      <img src={landingPageImg} className={classes.landingPageImg} alt="landing-page" />
       </div>
     </div>
 

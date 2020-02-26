@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PlacesAutocomplete from "react-places-autocomplete";
 import axios from "axios";
 import {
@@ -9,6 +9,10 @@ import {
   InputLabel
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import Grid from '@material-ui/core/Grid';
+
+
 const useStyles = makeStyles({
   formContainer: {
     maxWidth: "80%",
@@ -18,56 +22,56 @@ const useStyles = makeStyles({
     justifyContent: "space-evenly",
     '& label.Mui-focused': {
       color: '#F4976C',
-      
+
     },
     '& .MuiInput-underline:after': {
       borderBottomColor: '#F4976C',
-     
+
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderRadius:"15px"
+        borderRadius: "15px"
       },
       '&:hover fieldset': {
         borderColor: '#F4976C',
-        
+
       },
       '&.Mui-focused fieldset': {
         borderColor: '#F4976C',
-       
+
       },
     },
   },
   input: {
     minWidth: "100%",
     boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
-    borderRadius:"15px",
-   
+    borderRadius: "15px",
+
   },
-  smallInput : {
+  smallInput: {
     width: "45%",
     boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
-    borderRadius:"15px"
+    borderRadius: "15px"
   },
-  nameInput:{
-    paddingTop:"45px",
+  nameInput: {
+    paddingTop: "45px",
     minWidth: "90%",
-    display:"flex",
-    justifyContent:"space-between"
+    display: "flex",
+    justifyContent: "space-between"
   },
-  signupBtn : {
-    background:"#F4976C",
-    color:"white",
+  signupBtn: {
+    background: "#F4976C",
+    color: "white",
     boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
-    fontSize:"36px",
-    marginTop:"50px",
-    marginBottom:"50px",
-    borderRadius:"15px",
+    fontSize: "36px",
+    marginTop: "50px",
+    marginBottom: "50px",
+    borderRadius: "15px",
   },
-  inputContainer:{
-    paddingTop:"6%",
-  }
-  
+  inputContainer: {
+    paddingTop: "6%",
+  },
+
 });
 const professions = ["None", "Plumber", "Painter", "Electrition"];
 
@@ -81,6 +85,8 @@ const Signup = () => {
   const [profession, setProfession] = useState("");
   const [initial, setInitial] = useState(true);
   const [signupSuccess, setSignupSuccess] = useState(false);
+
+
   const fetchPost = async () => {
     const user = {
       first_name: firstName,
@@ -95,11 +101,11 @@ const Signup = () => {
         "https://hands-app.herokuapp.com/user/signup",
         user
       );
-     if(response.data.message){
-       setValidEmail(response.data.message);
-     }else{
-       setSignupSuccess(true);
-     }
+      if (response.data.message) {
+        setValidEmail(response.data.message);
+      } else {
+        setSignupSuccess(true);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -116,7 +122,7 @@ const Signup = () => {
       setValidEmail("Invalid Email!");
       flag = false;
     }
-   
+
     if (!firstName || !lastName || password.length < 8 || !address) {
       flag = false;
     }
@@ -129,7 +135,7 @@ const Signup = () => {
     <form className={classes.formContainer}>
       <div className={classes.nameInput}>
         <TextField
-         className={classes.smallInput}
+          className={classes.smallInput}
           id="outlined-helperText"
           label="First Name"
           variant="outlined"
@@ -184,30 +190,35 @@ const Signup = () => {
           {({
             getInputProps,
             suggestions,
-            getSuggestionItemProps,
-            loading
+            getSuggestionItemProps
           }) => (
-            <div>
-              <TextField
-                className={classes.input}
-                id="outlined-helperText"
-                label="Location"
-                variant="outlined"
-                error={!address && !initial}
-                helperText={!address && !initial ? "location required" : ""}
-                {...getInputProps()}
-              />
               <div>
-                {suggestions.map(suggestion => {
-                  return (
-                    <div {...getSuggestionItemProps(suggestion)}>
-                      {suggestion.description}
-                    </div>
-                  );
-                })}
+                <TextField
+                  className={classes.input}
+                  id="outlined-helperText"
+                  label="Location"
+                  variant="outlined"
+                  error={!address && !initial}
+                  helperText={!address && !initial ? "location required" : ""}
+                  {...getInputProps()}
+                />
+                <div>
+                  <Grid container alignItems="center">
+                    {suggestions.map(suggestion => {
+                      const style = { backgroundColor: suggestion.active ? "#F4976C" : "white", color: suggestion.active ? "white" : "black" }
+                      return (
+                        <div {...getSuggestionItemProps(suggestion, { style })}>
+                              <Grid item>
+                                <LocationOnIcon className={classes.icon} />
+                                {suggestion.description}
+                              </Grid>
+                        </div>
+                      );
+                    })}
+                  </Grid>
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </PlacesAutocomplete>
       </div>
       <div className={classes.inputContainer}>

@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-//import "./styles.css";
-import axios from "axios";
 import GridList from "@material-ui/core/GridList";
 import { makeStyles } from "@material-ui/core/styles";
 import PostView from "../Components/Post/PostView";
@@ -10,7 +8,7 @@ const appPosts = [
   {
     selected_dates: {
       from: "2020-02-03",
-      to: "2020-02-04"
+                         to: "2020-02-04"
     },
 
     _id: 1,

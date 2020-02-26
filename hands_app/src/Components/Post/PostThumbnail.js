@@ -16,6 +16,18 @@ const useStyles = makeStyles({
     borderRadius: "20px",
     marginRight: "50px",
   },
+  mobileRoot:{
+    width: "120px",
+    height: "100px",
+    backgroundImage:
+      "url('https://www.imagesjunction.com/images/img/rose_images.jpg')",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    marginBottom: "4%",
+    borderRadius: "20px",
+    marginRight:"5px",
+    marginLeft:"5px",
+  },
   cardContent: {
     display: "flex",
     justifyContent: "space-between",
@@ -35,10 +47,19 @@ const useStyles = makeStyles({
 const PostThumbnail = props => {
   console.log(props)
   const classes = useStyles();
-  const [seletedStyle, setSelectedStyle] =useState()
+  const [selectedStyle, setSelectedStyle] =useState();
+  const [isMobile, setIsMobile] = useState();
   const handleClick = () => {
     props.onSelect(props.postIndex);
   };
+
+  useEffect(()=>{
+    if(props.isMobile){
+      setIsMobile("mobileRoot");
+    }else{
+      setIsMobile("root");
+    }
+  },[])
   useEffect(()=>{
     if(props.selectedPostI === props.postIndex){
       setSelectedStyle("selected");
@@ -47,7 +68,7 @@ const PostThumbnail = props => {
     }
   },[props.selectedPostI])
   return (
-    <Card  style={{backgroundImage:`url('${props.image}')`}} className={`${classes.root} ${classes[seletedStyle]} `} onClick={handleClick}>
+    <Card style={{backgroundImage:`url('${props.image}')`}} className={`${classes[isMobile]} ${classes[selectedStyle]} `} onClick={handleClick}>
       <CardActionArea>
         <CardContent className={classes.cardContent}>
           <Typography gutterBottom>{props.title}</Typography>
