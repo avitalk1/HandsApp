@@ -111,7 +111,7 @@ export default function Posts(props) {
               <PostThumbnail
                 onSelect={handlePostSelect}
                 postIndex={index}
-                key={post._id}
+                key={`postThumb${post._id}`}
                 title={post.request.subject}
                 date={post.selected_dates.from}
                 selectedPostI={selectedPostIndex}

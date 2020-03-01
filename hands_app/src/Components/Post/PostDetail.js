@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import {Typography, Checkbox, FormControlLabel}  from "@material-ui/core";
 import moment from "moment";
 
 const useStyles = makeStyles({
@@ -54,9 +52,10 @@ const PostDetail = props => {
     } else if (title === "Professions Needed" && content) {
       return (
         <div className={classes[contumeContentStyle]}>
-          {content.map(pro => {
+          {content.map((pro ,index)=> {
             return (
               <FormControlLabel
+                key={`cb${index}`}
                 control={<Checkbox checked={false} color="primary" />}
                 label={pro}
               />

@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import { Route } from "react-router-dom";
 import LandingPage from "../pages/LandingPage";
 import MobileLandingPage from "../Mobile/MobileLandingPage";
@@ -26,7 +26,7 @@ const ReactRouter = () => {
   if(matches===true){
     return (
       <React.Fragment>
-        <Route exact path="/" component={LandingPage} />
+        <Route exact path="/" render={(props) => <LandingPage {...props}/>} />
         <Route path="/connection" render={(props) => <UserConnect {...props}/>} /> 
         <Route path="/posts" render={(props) => <Posts {...props}/>}/>
         <Route path="/admin" render={(props) => <AdminInbox {...props}/>}/>

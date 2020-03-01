@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import {Card, Button, Typography} from "@material-ui/core";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import DescriptionIcon from "@material-ui/icons/Description";
 import SentimentSatisfiedOutlinedIcon from "@material-ui/icons/SentimentSatisfiedOutlined";
 import BuildOutlinedIcon from "@material-ui/icons/BuildOutlined";
-
+import { Redirect } from "react-router";
+import CostumeSnackbar from "../CostumSnackbar";
 import PostDetail from "./PostDetail";
 import axios from "axios";
 const postDetails = [
@@ -136,21 +135,23 @@ const PostView = props => {
   const classes = useStyles();
   const [selectedStyle, setSelectedStyle] = useState();
   const [isMobile, setIsMobile] = useState();
-
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const putData = async () => {
-    console.log(props.userId)
     let user = { volunteersId: props.userId}
-   
-
     try{
-      const result = await axios.put(`https://hands-app.herokuapp.com/post/${props.postContent.id}/joinEvent`, user)
-      console.log(result);
+      await axios.put(`https://hands-app.herokuapp.com/post/${props.postContent.id}/joinEvent`, user)
+      if(props.isMobile){
+          props.onJoin();
+      }
+      else{
+        console.log("in else ")
+        setOpenSnackbar(true);
+      }
     }catch(err){
       console.log(err)
     }
   }
   const handleClick = () => {
-
     putData()
   };
 
@@ -160,15 +161,15 @@ const PostView = props => {
     } else {
       setIsMobile("postView");
     }
-  },)
+  },[])
   useEffect(() => {
     if (props.selectedPostI === props.postIndex) {
       setSelectedStyle("selected");
     } else {
       setSelectedStyle("");
     }
-  },)
-  return (
+  },[])
+    return (
     <div className={`${classes[isMobile]} ${classes[selectedStyle]} `}>
       <div className={classes.postViewTitle}>
         <Typography style={{ fontSize: "1.5em", fontWeight:"bold" }}>
@@ -182,7 +183,7 @@ const PostView = props => {
         {postDetails.map(detail => {
           return (
             <PostDetail
-              key={detail.key}
+              key={`postDetail${detail.key}`}
               icon={detail.icon}
               title={detail.title}
               content={props.postContent[detail.valuePath]}
@@ -196,6 +197,7 @@ const PostView = props => {
         JOIN
       </Button>
       </div>
+      <CostumeSnackbar severity={"success"} messageInfo={"Yes! You Joined This Event"} openSnackbar={openSnackbar} handleSnackbar={()=>setOpenSnackbar(false)}/>
     </div>
   );
 };

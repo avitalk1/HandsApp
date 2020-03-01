@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
 
@@ -30,11 +30,9 @@ const useStyles = makeStyles({
 });
 
 export default function PostPhotos(props) {
-  console.log(props)
   const classes = useStyles();
   const [selectPhoto, setSelectPhoto] = useState(["", "", "", ""]);
   const handleSelect = index => {
-    console.log("hello");
     let newSelectPhoto = ["", "", "", ""];
     newSelectPhoto[index] = "selectPhoto";
     setSelectPhoto(newSelectPhoto);

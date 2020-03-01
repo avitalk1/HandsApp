@@ -1,5 +1,5 @@
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import {
     geocodeByAddress,
@@ -28,7 +28,7 @@ const MapContainer = (props) => {
             const results = await axios.get(`https://hands-app.herokuapp.com/post/showAllPosts`);
             results.data.map((res, index) => {
                 setPosts(posts => [...posts, res.request]);
-                if (index == results.data.length - 1) setFinished(finished + 1);
+                if (index === results.data.length - 1) setFinished(finished + 1);
             })
         } catch (err) {
             console.log(err);
@@ -63,7 +63,7 @@ const MapContainer = (props) => {
     useEffect(() => {
         if (finished === 1)
             handleGeoCode()
-        if (finished === 2 && coordinates.length == posts.length) {
+        if (finished === 2 && coordinates.length === posts.length) {
             if (navigator && navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(pos => {
                     const coords = pos.coords;
@@ -84,7 +84,7 @@ const MapContainer = (props) => {
     }, [finished]);
 
 
-    if (centerAroundCurrentLocation && currentLocation != defaultLocation.initialCenter) {
+    if (centerAroundCurrentLocation && currentLocation !== defaultLocation.initialCenter) {
         return (
             <Map google={props.google} zoom={14} initialCenter={currentLocation}>
                 {coordinates.map((cor, index) => {
