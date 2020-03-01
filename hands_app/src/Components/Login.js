@@ -3,20 +3,18 @@ import { Redirect } from "react-router";
 
 import axios from "axios";
 import {
+  Container,
   Button,
   TextField
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
-  formContainer: {
-    width: "80%",
-    minHeight: "100%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
+  inputField:{
+    marginTop: "45px",
+    boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
+    borderRadius: "15px",
     '& label.Mui-focused': {
       color: '#F4976C',
-
     },
     '& .MuiInput-underline:after': {
       borderBottomColor: '#F4976C',
@@ -35,24 +33,17 @@ const useStyles = makeStyles({
       }, 
     },
   },
-
   errorMsg: {
     color: 'red'
   },
-  input: {
-    minWidth: "100%",
-    boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
-    borderRadius: "15px",
-    marginTop: "45px"
-  },
   loginBtn: {
     background: "#F4976C",
-    color: "white",
     boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
     fontSize: "36px",
-    marginTop: "50px",
     marginBottom: "50px",
+    marginTop: "25px",
     borderRadius: "15px",
+    color:"white"
   },
 });
 
@@ -107,7 +98,6 @@ const Login = () => {
   };
   const classes = useStyles();
   if (loginSuccess === true) {
-    console.log(loggedInUser)
     if (loggedInUser.user_type === "Volunteer") {
       content = (
         <Redirect
@@ -142,33 +132,31 @@ const Login = () => {
     }
   } else {
     content = (
-      <form className={classes.formContainer}>
-        <div>
+      <Container maxWidth="sm">
           <TextField
-            className={classes.input}
-            id="outlined-helperText"
+            className={classes.inputField}
+            fullWidth
+            margin="normal"
             label="Email"
             variant="outlined"
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
-        </div>
-        <div>
           <TextField
-            className={classes.input}
-            id="outlined-helperText"
+            className={classes.inputField}
+            fullWidth
+            margin="normal"
             type="password"
             label="Password"
             variant="outlined"
             value={password}
             onChange={e => setPassword(e.target.value)}
-          />
-        </div>
+          />      
         <p className={classes.errorMsg}>{valid}</p>
-        <Button className={classes.loginBtn} onClick={handleSubmit} variant="contained">
+        <Button className={classes.loginBtn} fullWidth onClick={handleSubmit} variant="contained">
           LOGIN
       </Button>
-      </form>
+      </Container>
     )
   }
   return content;

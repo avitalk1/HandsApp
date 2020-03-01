@@ -8,10 +8,9 @@ import logo from './images/logo.png';
 import 'typeface-roboto'
 ReactDOM.render(
     <Router>
-            <img src={logo} className="logo" alt="logo" />
+        <img src={logo} className="logo" alt="logo" />
         <ReactRouter />
     </Router>
     , document.getElementById('root')
 )
-
 serviceWorker.unregister();

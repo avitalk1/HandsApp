@@ -97,7 +97,6 @@ function Footer(props) {
             </div>
         )
     } else {
-        console.log(props)
         if (props.location === "/" || props.location === "/connection/login") {
             return null;
         }

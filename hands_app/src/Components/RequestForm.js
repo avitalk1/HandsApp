@@ -1,6 +1,6 @@
 import "date-fns";
 import React, { useState, useEffect } from "react";
-import { Button, TextField, Typography, createMuiTheme, Grid } from "@material-ui/core";
+import { Button, TextField, Typography, createMuiTheme,Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
 import { ThemeProvider } from "@material-ui/styles";
@@ -8,6 +8,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import parse from 'autosuggest-highlight/parse';
 import throttle from 'lodash/throttle';
+import CostumeSnackbar from "../Components/CostumSnackbar"
+import { Redirect } from "react-router";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
@@ -24,54 +26,40 @@ const materialTheme = createMuiTheme({
   }
 });
 const useStyles = makeStyles({
-  formContainer: {
-    maxWidth: "80%",
-    minHeight: "100%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-    "& label.Mui-focused": {
-      color: "#F4976C"
+  inputField:{
+   marginTop: "10px",
+   marginBottom: "10px",
+    width:"45%",
+    boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
+    borderRadius: "15px",
+    '& label.Mui-focused': {
+      color: '#F4976C',
+
     },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#F4976C"
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#F4976C',
+
     },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
+    
+    '& .MuiOutlinedInput-root': {
+      borderRadius: "15px",
+      '& fieldset': {
         borderRadius: "15px"
       },
-      "&:hover fieldset": {
-        borderColor: "#F4976C"
+      '&:hover fieldset': {
+         borderColor: '#F4976C',
+
       },
-      "&.Mui-focused fieldset": {
-        borderColor: "#F4976C"
-      }
-    }
+      '&.Mui-focused fieldset': {
+        borderColor: '#F4976C',
+      }, 
+    },
   },
   title: {
     color: "#2C3531",
     fontSize: "1.5em",
-    marginBottom: "2%"
-  },
-  lineInput: {
-    minWidth: "90%",
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "3%"
-  },
-  Input: {
-    width: "45%",
-    boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
-    borderRadius: "15px"
-  },
-  inputContainer: {
-    marginggTop: "6%"
-  },
-  description: {
-    width: "100%",
-    boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.25)",
-    borderRadius: "15px",
-    marginBottom: "3%"
+    marginBottom: "1%",
+    marginTop: "1%"
   },
   imageContainer: {
     width: "100%",
@@ -129,6 +117,8 @@ const useStyles = makeStyles({
     }
   },
   dateInput: {
+    marginTop: "10px",
+    marginBottom: "10px",
     width: "45%",
     color: "black",
     "& .MuiFormControl-root": {
@@ -156,15 +146,6 @@ const useStyles = makeStyles({
       }
     }
   },
-  locationInput: {
-    width: "100%"
-  },
-  locationInputContainer: {
-    width: "45%"
-  },
-  suggestionContainer: {
-    overflow: "auto"
-  }
 });
 const autocompleteService = { current: null };
 
@@ -183,11 +164,11 @@ export default function RequestForm() {
   });
 
 
-  const [validEmail, setValidEmail] = useState("");
+ 
   const [address, setAddress] = useState("");
   const [options, setOptions] = useState([])
-  const [initial, setInitial] = useState(true);
   const [success, setRequestSuccess] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false)
   const [previewImg, setPreviewImg] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [inlineStyles, setInlineStyles] = useState([
@@ -218,7 +199,6 @@ export default function RequestForm() {
     setNewRequest(tempNewRequest);
   }
   const handleAddressChange = event => {
-    console.log(event.target);
     setAddress(event.target.value);
   };
   const fetching = React.useMemo(
@@ -238,7 +218,6 @@ export default function RequestForm() {
     if (!autocompleteService.current) {
       return undefined;
     }
-
     if (address === '') {
       setOptions([]);
       return undefined;
@@ -258,9 +237,10 @@ export default function RequestForm() {
   const postData = async () => {
     try {
       const result = await axios.post("https://hands-app.herokuapp.com/request/addRequest", newRequest);
-      console.log(result);
+      if(result.data.message) setOpenSnackbar(true);
+      else setRequestSuccess(true)
     } catch (err) {
-      console.log(err);
+      setOpenSnackbar(true);
     }
   }
   const uploadImagesToS3 = async (results, file) => {
@@ -303,7 +283,7 @@ export default function RequestForm() {
     tempNewRequest["location"] = address;
     tempNewRequest["date_from"]= selectedDate;
     tempNewRequest["date_to"] = selectedDate;
-    tempNewRequest["subject"] = tempNewRequest.description.substring(0, 15);
+    if(tempNewRequest.description) tempNewRequest["subject"] = tempNewRequest.description.substring(0, 15);
     setNewRequest(tempNewRequest)
     postData();
   }
@@ -315,70 +295,55 @@ export default function RequestForm() {
       getImagesUrl(file)
     }
   };
+if(success){
+  return (<Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+  )
 
+}else{
   return (
-    <form className={classes.formContainer}>
-      <div>
-        <div className={classes.contactInfo}>
+    <Container maxWidth="sm">
           <div className={classes.title}> Contact Information</div>
-          <div className={classes.lineInput}>
+          <Grid container justify="space-between" style={{ width: "100%" }}>
             <TextField
-              className={classes.Input}
-              id="outlined-helperText"
+              className={classes.inputField}
               label="First Name"
               variant="outlined"
               name="first_name"
               onChange={handleOnChange}
-              error={!newRequest.first_name && !initial}
-              helperText={!newRequest.first_name && !initial ? "first name required" : ""}
             />
             <TextField
-              className={classes.Input}
-              id="outlined-helperText"
+              className={classes.inputField}
               label="Last Name"
               variant="outlined"
               name="last_name"
               onChange={handleOnChange}
-              error={!newRequest.last_name && !initial}
-              helperText={!newRequest.last_name && !initial ? "last name required" : ""}
             />
-          </div>
-          <div className={classes.lineInput}>
+          </Grid>
+          <Grid container justify="space-between" style={{ width: "100%" }}>
             <TextField
-              className={classes.Input}
-              id="outlined-helperText"
+              className={classes.inputField}
               label="Email"
               variant="outlined"
               name="email"
               onChange={handleOnChange}
-              error={validEmail && !initial}
-              helperText={validEmail}
             />
             <TextField
-              className={classes.Input}
-              id="outlined-helperText"
+              className={classes.inputField}
               type="phoneNumber"
               label="Phone Number"
               variant="outlined"
               name="phone_number"
               onChange={handleOnChange}
-              error={newRequest.phone_number.length < 8 && !initial}
-              helperText={
-                newRequest.phone_number.length < 8 && !initial
-                  ? "phone number required.."
-                  : ""
-              }
             />
-          </div>
-        </div>
-      </div>
-      <div>
-        <div className={classes.requestInfo}>
+          </Grid>
           <div className={classes.title}> Request Information</div>
-          <div className={classes.lineInput}>
+          <Grid container justify="space-between" style={{ width: "100%" }}>
             <Autocomplete
-              id="google-map-demo"
-              style={{ width: "45%" }}
+               className={classes.inputField}
               getOptionLabel={option => {
                 setAddress(option.description);
                 return (typeof option === 'string' ? option : option.description)}
@@ -415,7 +380,6 @@ export default function RequestForm() {
                           {part.text}
                         </span>
                       ))}
-
                       <Typography variant="body2" color="textSecondary">
                         {option.structured_formatting.secondary_text}
                       </Typography>
@@ -445,23 +409,15 @@ export default function RequestForm() {
                 </MuiPickersUtilsProvider>
               </ThemeProvider>
             </div>
-          </div>
-
-          <div className={classes.inputContainer}>
+          </Grid>
             <TextField
-              className={classes.description}
-              id="outlined-helperText"
+              className={classes.inputField}
+              style={{width:"100%"}}
               label="Description"
               variant="outlined"
               name="description"
               onChange={handleOnChange}
-              error={!newRequest.description && !initial}
-              helperText={!newRequest.description && !initial ? "Description required" : ""}
             />
-          </div>
-        </div>
-      </div>
-      <div>
         <div className={classes.images}>
           <div className={classes.title}> Images</div>
           <div className={classes.imageContainer}>
@@ -470,12 +426,12 @@ export default function RequestForm() {
                 className={classes.imagePreview}
                 src={newRequest.images[0]}
                 style={inlineStyles[0].img}
+                alt="request-img"
               />
               <input
                 className={classes.fileInput}
                 imgIndex={0}
                 type="file"
-                id="file-browser-input"
                 name="file-browser-input"
                 onDragOver={e => {
                   e.preventDefault();
@@ -493,12 +449,12 @@ export default function RequestForm() {
                 className={classes.imagePreview}
                 src={newRequest.images[1]}
                 style={inlineStyles[1].img}
+                alt="request-img"
               />
               <input
                 className={classes.fileInput}
                 imgIndex={1}
                 type="file"
-                id="file-browser-input"
                 name="file-browser-input"
                 onDragOver={e => {
                   e.preventDefault();
@@ -516,12 +472,12 @@ export default function RequestForm() {
                 className={classes.imagePreview}
                 src={newRequest.images[2]}
                 style={inlineStyles[2].img}
+                alt="request-img"
               />
               <input
                 className={classes.fileInput}
                 imgIndex={2}
                 type="file"
-                id="file-browser-input"
                 name="file-browser-input"
                 onDragOver={e => {
                   e.preventDefault();
@@ -539,12 +495,12 @@ export default function RequestForm() {
                 className={classes.imagePreview}
                 src={newRequest.images[3]}
                 style={inlineStyles[3].img}
+                alt="request-img"
               />
               <input
                 className={classes.fileInput}
                 imgIndex={3}
                 type="file"
-                id="file-browser-input"
                 name="file-browser-input"
                 onDragOver={e => {
                   e.preventDefault();
@@ -552,7 +508,6 @@ export default function RequestForm() {
                 }}
                 onDrop={onFileLoad}
                 onChange={onFileLoad}
-              //    onClick={() => fileInput.click()}
               />
               <div className={classes.filesBrowser}>
                 <AddIcon style={inlineStyles[3].icon} className={classes.plus} />
@@ -560,12 +515,13 @@ export default function RequestForm() {
             </div>
           </div>
         </div>
-      </div>
-      <div>
+    
         <Button onClick={handleOnSubmit} className={classes.submitBtn} variant="contained" >
           Submit
       </Button>
-      </div>
-    </form>
+      <CostumeSnackbar severity={"error"} messageInfo={"Opps Something Went Wrong, Make sure all fields are filled"} openSnackbar={openSnackbar} handleSnackbar={()=>setOpenSnackbar(false)}/>
+    </Container>
   );
+}
+  
 }

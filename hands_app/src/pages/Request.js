@@ -44,7 +44,6 @@ const useStyles = makeStyles({
 
 
 export default function Request(props) {
-    console.log(props.location.state)
     const classes = useStyles();
     return (
         <div className={classes.Background}>

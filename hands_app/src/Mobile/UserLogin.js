@@ -1,6 +1,7 @@
 import React from "react";
 import Login from "../Components/Login";
 import { makeStyles } from "@material-ui/core/styles";
+import Container from '@material-ui/core/Container';
 const useStyles = makeStyles({
     formWrapper: {
         width: "100%",
@@ -29,16 +30,10 @@ const useStyles = makeStyles({
         fontSize: "24px",
         marginTop: "10%",
     },
-    formContainer: {
-        width: "100%",
-        marginTop: "10%",
-        marginLeft: "10%"
-    },
 })
 const UserLogin = (props) => {
     props.onPageLoad(window.location.pathname);
     const classes = useStyles();
-
     let content = (
         <div className={classes.formWrapper}>
             <div className={classes.root}> </div>
@@ -46,15 +41,12 @@ const UserLogin = (props) => {
                 <div className={classes.header}></div>
                 <div className={classes.subject}><h1>Welcome!</h1></div>
                 <div className={classes.haederBackground} />
-                <div className={classes.formContainer}>
-                    <div>{
-                        <Login />
-                    }</div>
-                </div>
+                <Container>
+                    <Login />
+                </Container>
             </div>
         </div>
     )
-
     return content;
 }
 

@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { makeStyles } from "@material-ui/core/styles";
+import { Box , Typography} from "@material-ui/core";
 import CreatePostForm from "../Components/Post/CreatePostForm";
 import PostPhotos from "../Components/Post/PostPhotos";
+
 const useStyles = makeStyles({
     formWrapper: {
         height: "90vh",
@@ -59,17 +61,17 @@ export default function CreatePostPage(props) {
         setSelectedPhoto(index)
     }
     return (
-        <div>
-            <div className={classes.formWrapper}>
-                <div className={classes.bgContainer}>
-                    <div className={classes.leftColumn}>
-                        <h1 className={` ${classes.welcome} ${classes.welcomeHeading} `}>Write a Post</h1>
+        <Box>
+            <Box className={classes.formWrapper}>
+                <Box className={classes.bgContainer}>
+                    <Box className={classes.leftColumn}>
+                        <Typography variant="h1" className={` ${classes.welcome} ${classes.welcomeHeading} `}>Write a Post</Typography>
                         <PostPhotos onPhotoSelect={handlePhotoSelect} images={request.images}/>
-                    </div>
-                    <div className={classes.rightColumn}></div>
-                </div>
-                <div  className={classes.formContainer}><CreatePostForm requestDetails={request}  userId={props.location.state.userId} coverPhoto={selectedPhoto}/></div>
-            </div>
-        </div>
+                    </Box>
+                    <Box className={classes.rightColumn}></Box>
+                </Box>
+                <Box  className={classes.formContainer}><CreatePostForm requestDetails={request}  userId={props.location.state.userId} coverPhoto={selectedPhoto}/></Box>
+            </Box>
+        </Box>
     );
 }

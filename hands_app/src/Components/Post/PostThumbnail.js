@@ -1,9 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
+import {Card, CardActionArea, CardContent , Typography} from "@material-ui/core";
 import moment from "moment";
 
 const useStyles = makeStyles({
@@ -45,7 +42,6 @@ const useStyles = makeStyles({
 });
 
 const PostThumbnail = props => {
-  console.log(props)
   const classes = useStyles();
   const [selectedStyle, setSelectedStyle] =useState();
   const [isMobile, setIsMobile] = useState();

@@ -25,7 +25,7 @@ export default function RequestView(props) {
     <List className={classes.root}>
       {props.requests.map((req, index) => (
         <RequestThumbnail
-          key={index}
+          key={`requestThumb${index}`}
           index={index}
           requester={req.requester.name}
           subject={req.subject}

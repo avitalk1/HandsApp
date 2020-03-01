@@ -39,6 +39,7 @@ const MobilePosts = (props) => {
     const [posts, setPosts] = useState([]);
     const [selectedPost, setSelectedPost] = useState({});
     const [selectedPostIndex, setSelectedPostIndex] = useState(-1);
+    
     let content;
     const fetchPosts = async () => {
         try {
@@ -101,6 +102,7 @@ const MobilePosts = (props) => {
                     {posts.map((post, index) => {
                         return (
                             <PostThumbnail
+                                key={`postThumbnial${index}`}
                                 className={classes.card}
                                 onSelect={handlePostSelect}
                                 postIndex={index}
@@ -118,7 +120,7 @@ const MobilePosts = (props) => {
             <div>
                 <div className={classes.root}> </div>
                 <div className={classes.postContainer}>
-                    <PostView key={selectedPost._id} postContent={selectedPost} isMobile={true} />
+                    <PostView key={selectedPost._id} postContent={selectedPost} isMobile={true} onJoin={()=>setSelectedPostIndex(-1)}/>
                 </div>
 
             </div>
